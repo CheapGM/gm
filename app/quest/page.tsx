@@ -271,7 +271,7 @@ export default function LotteryPage() {
 
   const isLoading = isApproving || isApprovingConfirming || isJoining || isJoiningConfirming;
   const hasInsufficientBalance = usdtBalance < entryFee;
-  const isButtonDisabled = !isConnected || !isAuthorized || !isOnCorrectNetwork || hasJoined || isLoading || hasInsufficientBalance;
+  const isButtonDisabled = Boolean(!isConnected || !isAuthorized || !isOnCorrectNetwork || hasJoined || isLoading || hasInsufficientBalance);
 
   // Get quest info based on selected quest
   const getQuestInfo = (questType: QuestType) => {

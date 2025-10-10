@@ -14,8 +14,7 @@ export const LotteryNetworkButton = ({ allowedChainIds }: LotteryNetworkButtonPr
   const { chain } = useAccount();
   const [isOpen, setIsOpen] = useState(false);
 
-  const isUnsupported = chain?.unsupported ||
-    (allowedChainIds && chain && !allowedChainIds.includes(chain.id));
+  const isUnsupported = allowedChainIds && chain && !allowedChainIds.includes(chain.id);
 
   // Filter available chains to only show allowed ones
   const availableChains = CHAINS.filter(c =>

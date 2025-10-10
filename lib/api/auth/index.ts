@@ -3,7 +3,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { getUserConfigByAddress } from "@/lib/web3/service/domain";
-import { getChainByChain, NETWORKS } from "@/config/chains";
+import { getChainByChain, NETWORKS, ChainId } from "@/config/chains";
 import prisma from "@/lib/db";
 
 export const getAuthenticatedUser = async () => {
@@ -48,7 +48,7 @@ export const isDomainOwnerByDBID = async (profileId: string) => {
     },
   });
   if (currentDomain) {
-    const chainId = getChainByChain(currentDomain.chain).id;
+    const chainId = getChainByChain(currentDomain.chain as ChainId).id;
     if (user?.address) {
       const configData = await getUserConfigByAddress(user?.address, chainId);
       return (
@@ -88,7 +88,7 @@ export const isDomainOwnerByAddress = async (
   });
 
   if (currentDomain) {
-    const chainId = getChainByChain(currentDomain.chain).id;
+    const chainId = getChainByChain(currentDomain.chain as ChainId).id;
     if (address) {
       const configData = await getUserConfigByAddress(address, chainId);
       return (

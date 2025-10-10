@@ -1,6 +1,7 @@
 "use server";
 import { formatEther } from "viem";
 import prisma from "@/lib/db";
+import { Chain } from "@prisma/client";
 import { NETWORKS, getChainByID } from "@/config/chains";
 import { getUserConfigByAddress } from "@/lib/web3/service/domain";
 
@@ -14,11 +15,11 @@ export const updateRefer = async (refer: string, chainId: NETWORKS) => {
 
     if (numberOfReferrals > 0 || totalEarnings > 0) {
       const referItem = await prisma.referral.findFirst({
-        where: { walletAddress: refer, chain: chain },
+        where: { walletAddress: refer, chain: chain as Chain },
       });
 
       const data = {
-        chain: chain,
+        chain: chain as Chain,
         walletAddress: refer,
         totalEarnings: Number(formatEther(updateData.totalEarnings)),
         numberOfReferrals: Number(updateData.numberOfReferrals),
@@ -43,7 +44,7 @@ export const updateGMReferral = async (
   const referralItem = await prisma.referral.findFirst({
     where: {
       walletAddress: refer,
-      chain: chain,
+      chain: chain as Chain,
     },
   });
 
@@ -55,7 +56,7 @@ export const updateGMReferral = async (
     // Create new referral if not found
     const newReferral = await prisma.referral.create({
       data: {
-        chain: chain,
+        chain: chain as Chain,
         walletAddress: refer,
         numberOfReferrals: 1,
         totalEarnings: referralAmount,
@@ -89,7 +90,7 @@ export const updateDeployReferral = async (
   const referralItem = await prisma.referral.findFirst({
     where: {
       walletAddress: refer,
-      chain: chain,
+      chain: chain as Chain,
     },
   });
 
@@ -101,7 +102,7 @@ export const updateDeployReferral = async (
     // Create new referral if not found
     const newReferral = await prisma.referral.create({
       data: {
-        chain: chain,
+        chain: chain as Chain,
         walletAddress: refer,
         numberOfReferrals: 1,
         totalEarnings: referralAmount,
@@ -141,7 +142,7 @@ export const getReferrals = async (chainId: NETWORKS, address?: string) => {
   const chain = getChainByID(chainId).chain;
   const referrals = await prisma.referral.findMany({
     orderBy: { totalEarnings: "desc" },
-    where: { chain: chain, numberOfReferrals: { gt: 0 } },
+    where: { chain: chain as Chain, numberOfReferrals: { gt: 0 } },
   });
 
   const lead = referrals ? referrals : [];

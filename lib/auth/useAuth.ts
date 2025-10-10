@@ -19,7 +19,7 @@ const useAuth = () => {
     [isLoading, session]
   );
   const isAuthorized = useMemo(
-    () => isConnected && address && session?.user.address === address,
+    () => !!(isConnected && address && session?.user.address === address),
     [isConnected, address, session]
   );
 

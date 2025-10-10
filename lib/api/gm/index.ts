@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { Chain } from "@prisma/client";
 import { NETWORKS, getChainByID } from "@/config/chains";
 
 export interface GMRecord {
@@ -17,7 +18,7 @@ export const saveGM = async (data: GMRecord) => {
       data: {
         walletAddress: data.walletAddress,
         dId: data.dId,
-        chain: chain,
+        chain: chain as Chain,
       },
     });
 
@@ -40,7 +41,7 @@ export const canUserSendGM = async (
     const lastGM = await prisma.gM.findFirst({
       where: {
         walletAddress,
-        chain,
+        chain: chain as Chain,
       },
       orderBy: {
         createdAt: "desc",

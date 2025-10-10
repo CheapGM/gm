@@ -24,14 +24,14 @@ export function useCurView(questType: QuestType = 'bronze') {
   return {
     round: data
       ? {
-          id: Number(data[0]),
-          name: data[1] as string,
-          startedAt: Number(data[2]),
-          endedAt: Number(data[3]),
-          poolWei: data[4],
-          players: Number(data[5]),
-          closed: data[6] as boolean,
-          isSealed: data[7] as boolean,
+          id: Number((data as any)[0]),
+          name: (data as any)[1] as string,
+          startedAt: Number((data as any)[2]),
+          endedAt: Number((data as any)[3]),
+          poolWei: (data as any)[4],
+          players: Number((data as any)[5]),
+          closed: (data as any)[6] as boolean,
+          isSealed: (data as any)[7] as boolean,
         }
       : null,
     isLoading,
@@ -221,16 +221,16 @@ export function useSealedView() {
     functionName: 'sealedView',
   });
 
-  if (!data || !data[0]) return null;
+  if (!data || !(data as any)[0]) return null;
 
   return {
-    exists: data[0] as boolean,
-    id: Number(data[1]),
-    startedAt: Number(data[2]),
-    endedAt: Number(data[3]),
-    poolWei: data[4],
-    players: Number(data[5]),
-    closed: data[6] as boolean,
+    exists: (data as any)[0] as boolean,
+    id: Number((data as any)[1]),
+    startedAt: Number((data as any)[2]),
+    endedAt: Number((data as any)[3]),
+    poolWei: (data as any)[4],
+    players: Number((data as any)[5]),
+    closed: (data as any)[6] as boolean,
   };
 }
 

@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/db";
+import { Chain } from "@prisma/client";
 import { NETWORKS, getChainByID } from "@/config/chains";
 
 export interface DeployRecord {
@@ -17,7 +18,7 @@ export const saveDeploy = async (data: DeployRecord) => {
       data: {
         walletAddress: data.walletAddress,
         dId: data.dId,
-        chain: chain,
+        chain: chain as Chain,
       },
     });
 
@@ -40,7 +41,7 @@ export const canUserDeploy = async (
     const lastDeploy = await prisma.deploy.findFirst({
       where: {
         walletAddress,
-        chain,
+        chain: chain as Chain,
       },
       orderBy: {
         createdAt: "desc",

@@ -32,7 +32,7 @@ export function JoinButton({ disabled, onSuccess }: JoinButtonProps) {
 
   const handleJoin = () => {
     if (!address || hasJoined || disabled) return;
-    join(entryFee);
+    join();
   };
 
   if (!address) {
