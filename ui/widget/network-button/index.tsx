@@ -4,14 +4,21 @@ import Image from "@/ui/components/image";
 import { LuSettings2 } from "react-icons/lu";
 import { SwitchNetworkIcon } from "@/ui/components/icon/SwitchNetworkIcon";
 
-export const NetworkButton = () => {
+interface NetworkButtonProps {
+  allowedChainIds?: number[];
+}
+
+export const NetworkButton = ({ allowedChainIds }: NetworkButtonProps = {}) => {
   return (
     <ConnectButton.Custom>
       {({ chain, openChainModal }) => {
+        const isUnsupported = chain?.unsupported ||
+          (allowedChainIds && chain && !allowedChainIds.includes(chain.id));
+
         return (
           <div className="w-full">
             {(() => {
-              if (chain?.unsupported) {
+              if (isUnsupported) {
                 return (
                   <div
                     onClick={openChainModal}

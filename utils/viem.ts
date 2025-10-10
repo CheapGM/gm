@@ -11,7 +11,7 @@ export function createViemPublicClients() {
       ...prev,
       [cur.id]: createPublicClient({
         chain: cur,
-        transport: http(),
+        transport: http(cur.rpcUrls?.default?.http?.[0]),
         batch: {
           multicall: {
             batchSize: 1024 * 200,
@@ -64,7 +64,7 @@ export const publicClient = (chainId: NETWORKS = NETWORKS.DEFAULT) => {
   const chain = CHAINS.find((c) => c.id === chainId);
   return createPublicClient({
     chain,
-    transport: http(),
+    transport: http(chain?.rpcUrls?.default?.http?.[0]),
     ...CLIENT_CONFIG,
   });
 };

@@ -148,20 +148,21 @@ model UserSpin {
 }
 
 model Round {
-  id             Int             @id @default(autoincrement())
-  roundId        Int             @unique
-  chainId        Int
-  questName      String?         @db.VarChar(100)
-  questType      String?         @default("BRONZE") @db.VarChar(50)
-  startedAt      DateTime
-  endedAt        DateTime?
-  poolWei        String          @db.VarChar(78)
-  status         String          @db.VarChar(10)
-  isSealed       Boolean         @default(false)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  participations Participation[]
-  winners        Winner[]
+  id                  Int             @id @default(autoincrement())
+  roundId             Int             @unique
+  questName           String?         @db.VarChar(100)
+  questType           String?         @default("BRONZE") @db.VarChar(50)
+  startedAt           DateTime
+  endedAt             DateTime?
+  poolWei             String          @db.VarChar(78)
+  status              String          @db.VarChar(10)
+  isSealed            Boolean         @default(false)
+  settlementTxHash    String?         @db.VarChar(66)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @default(now()) @updatedAt
+  chainId             Int
+  participations      Participation[]
+  winners             Winner[]
 
   @@index([status])
   @@index([roundId])
@@ -351,11 +352,4 @@ enum Chain {
   LENS
   PHAROS
   CORE
-  PLASMA
-  GATELAYER
-  SYNDICATE
-  GIWA
-  OG
-  ZERO
-  XDC
 }

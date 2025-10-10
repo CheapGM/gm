@@ -5,6 +5,7 @@ import {
   Space_Grotesk,
   Space_Mono,
   Orbitron,
+  Bungee,
 } from "next/font/google";
 import { cx } from "class-variance-authority";
 import { Header, Footer } from "@/ui/layouts/app-layout";
@@ -20,8 +21,8 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-cards";
-import UnAuthWallet from "@/ui/widget/unauth-wallet";
 import Script from "next/script";
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = getMetaDataByName("home");
 
@@ -60,6 +61,13 @@ const orbitron = Orbitron({
   variable: "--font-orbitron",
 });
 
+const bungee = Bungee({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-bungee",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -76,6 +84,7 @@ export default function RootLayout({
         spaceGrotesk.variable,
         inter.variable,
         orbitron.variable,
+        bungee.variable,
         "relative text-white bg-main-100 font-poppins"
       )}
     >
@@ -106,9 +115,9 @@ export default function RootLayout({
             <div className="flex-1">{children}</div>
             <Footer />
           </div>
-          <UnAuthWallet />
         </Providers>
         <Progress />
+        <Toaster position="bottom-right" richColors />
       </body>
     </html>
   );

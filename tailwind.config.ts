@@ -116,6 +116,7 @@ const config: Config = {
         ],
         inter: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
         orbitron: ["var(--font-orbitron)", ...defaultTheme.fontFamily.sans],
+        bungee: ["var(--font-bungee)", ...defaultTheme.fontFamily.sans],
       },
       // primary: "#CAFC01",
       // verified: "#05ABFF",
@@ -165,6 +166,21 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: any) {
+      addUtilities({
+        '.scrollbar-hide': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+          /* Firefox */
+          'scrollbar-width': 'none',
+          /* Safari and Chrome */
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
+      });
+    },
+  ],
 };
 export default config;

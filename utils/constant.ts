@@ -21,10 +21,10 @@ export const HEADER_MENU_LIST = [
     external: false,
   },
   {
-    icon: SearchIcon,
-    iconType: "component",
-    name: "Register Domain",
-    link: "/search",
+    icon: '/img/goal.svg',
+    iconType: 'svg',
+    name: 'Quest on GM',
+    link: '/quest',
     external: false,
   },
 ];
@@ -32,7 +32,7 @@ export const HEADER_MENU_LIST = [
 export const FOOTER_MENU_LIST = [
   { name: "Say GM Today", link: "/?tab=gm", external: false },
   { name: "Deploy Smart Contract", link: "/?tab=deploy", external: false },
-  { name: "Register domain", link: "/search", external: false },
+  { name: "Quest on GM", link: "/quest", external: false},
   { name: "Documentation", link: "https://doc.gm.cheap", external: true },
 ];
 
