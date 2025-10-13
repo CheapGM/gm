@@ -36,7 +36,6 @@ import { Button } from "@/ui/components/button";
 import { useRoundResults } from "@/lib/hooks/useRoundResults";
 import { RoundResultModal } from "@/ui/components/RoundResultModal";
 import { useChainId } from "wagmi";
-import { SwitchNetworkIcon } from "@/ui/components/icon/SwitchNetworkIcon";
 import useAuth from "@/lib/auth/useAuth";
 
 // Allowed chains for lottery
@@ -420,12 +419,11 @@ export default function LotteryPage() {
         isJoiningConfirming;
     const hasInsufficientBalance = usdtBalance < entryFee;
     const isButtonDisabled = Boolean(
-        !isConnected ||
-            !isAuthorized ||
-            !isOnCorrectNetwork ||
-            hasJoined ||
-            isLoading ||
-            hasInsufficientBalance
+        (isConnected && !isAuthorized) ||
+            (isConnected && !isOnCorrectNetwork) ||
+            (isConnected && hasJoined) ||
+            (isConnected && isLoading) ||
+            (isConnected && hasInsufficientBalance)
     );
 
     // Get quest info based on selected quest
@@ -535,7 +533,7 @@ export default function LotteryPage() {
                                 />
 
                                 {/* Main content with wheel and selectors */}
-                                <div className="flex flex-row gap-[0px]">
+                                <div className="flex flex-row gap-[0px] relative">
                                     {/* Quest Selector Column */}
                                     <div className="h-[347px]">
                                         <QuestSelector
@@ -544,54 +542,91 @@ export default function LotteryPage() {
                                         />
                                     </div>
 
-                                    {/* Wheel */}
-                                    <div className="w-[431px] h-[440px] flex items-center justify-center relative">
-                                        {/* Static wheel - always present */}
-                                        <div
-                                            className="absolute"
-                                            style={{
-                                                width: "328.5px",
-                                                height: "328.5px",
-                                                opacity: showSpinningWheel
-                                                    ? 0
-                                                    : 1,
-                                            }}
-                                        >
-                                            <Image
-                                                src="/img/spin.png"
-                                                alt="GM Lottery Wheel"
-                                                fill
-                                                className="object-contain"
-                                                priority
-                                            />
+                                    {/* Wheel Container */}
+                                    <div className="w-[431px] flex flex-col items-center">
+                                        {/* Wheel */}
+                                        <div className="w-full h-[440px] flex items-center justify-center relative">
+                                            {/* Static wheel - always present */}
+                                            <div
+                                                className="absolute"
+                                                style={{
+                                                    width: "328.5px",
+                                                    height: "328.5px",
+                                                    opacity: showSpinningWheel
+                                                        ? 0
+                                                        : 1,
+                                                }}
+                                            >
+                                                <Image
+                                                    src="/img/spin.png"
+                                                    alt="GM Lottery Wheel"
+                                                    fill
+                                                    className="object-contain"
+                                                    priority
+                                                />
+                                            </div>
+                                            {/* Spinning GIF - appears instantly when active */}
+                                            <div
+                                                key={
+                                                    showSpinningWheel
+                                                        ? Date.now()
+                                                        : "static"
+                                                }
+                                                className="absolute"
+                                                style={{
+                                                    width: "380px",
+                                                    height: "380px",
+                                                    opacity: showSpinningWheel
+                                                        ? 1
+                                                        : 0,
+                                                    pointerEvents:
+                                                        showSpinningWheel
+                                                            ? "auto"
+                                                            : "none",
+                                                }}
+                                            >
+                                                <Image
+                                                    src="/gifsAndSounds/Spin%20Wheel.gif"
+                                                    alt="GM Lottery Wheel Spinning"
+                                                    fill
+                                                    className="object-contain"
+                                                    unoptimized
+                                                />
+                                            </div>
                                         </div>
-                                        {/* Spinning GIF - appears instantly when active */}
-                                        <div
-                                            key={
-                                                showSpinningWheel
-                                                    ? Date.now()
-                                                    : "static"
-                                            }
-                                            className="absolute"
-                                            style={{
-                                                width: "380px",
-                                                height: "380px",
-                                                opacity: showSpinningWheel
-                                                    ? 1
-                                                    : 0,
-                                                pointerEvents: showSpinningWheel
-                                                    ? "auto"
-                                                    : "none",
+
+                                        {/* My Quests Button */}
+                                        <button
+                                            onClick={() => {
+                                                // Scroll to winners section
+                                                const winnersSection =
+                                                    document.getElementById(
+                                                        "winners-section"
+                                                    );
+                                                if (winnersSection) {
+                                                    winnersSection.scrollIntoView(
+                                                        {
+                                                            behavior: "smooth",
+                                                            block: "start",
+                                                        }
+                                                    );
+                                                }
+                                                // Trigger My Quests filter
+                                                const myQuestsButton =
+                                                    document.querySelector(
+                                                        "[data-my-quests-button]"
+                                                    ) as HTMLButtonElement;
+                                                if (
+                                                    myQuestsButton &&
+                                                    !myQuestsButton.disabled
+                                                ) {
+                                                    myQuestsButton.click();
+                                                }
                                             }}
+                                            className="w-[118px] bg-[#0177E7] text-white rounded-xl px-2 py-[0.5rem] font-base text-base hover:bg-[#0165CC] transition-colors absolute bottom-0 right-0 font-poppins"
                                         >
-                                            <Image
-                                                src="/gifsAndSounds/Spin%20Wheel.gif"
-                                                alt="GM Lottery Wheel Spinning"
-                                                fill
-                                                className="object-contain"
-                                                unoptimized
-                                            />
-                                        </div>
+                                            My Quests
+                                        </button>
                                     </div>
 
                                     {/* Participants List */}
@@ -683,9 +718,15 @@ export default function LotteryPage() {
                                                 }}
                                                 className="bg-[#F1F1F1] border border-[#E6E6E6] rounded-xl px-5 py-[7px] h-[42px] flex flex-col justify-center w-full hover:bg-[#E9E9E9] transition-colors"
                                             >
-                                                <div className="flex flex-row justify-between items-center w-full gap-[75px]">
+                                                <div className="flex flex-row justify-between items-center w-full">
                                                     <div className="flex items-center gap-2">
-                                                        <SwitchNetworkIcon />
+                                                        <div
+                                                            className="w-[22px] h-[22px] rounded-full flex-shrink-0"
+                                                            style={{
+                                                                backgroundColor:
+                                                                    currentQuestInfo.color,
+                                                            }}
+                                                        />
                                                         <span className="text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)]">
                                                             {
                                                                 currentQuestInfo.name
@@ -697,13 +738,27 @@ export default function LotteryPage() {
                                                             round
                                                         </span>
                                                     </div>
-                                                    <div
-                                                        className="w-[22px] h-[22px] rounded-full"
-                                                        style={{
-                                                            backgroundColor:
-                                                                currentQuestInfo.color,
-                                                        }}
-                                                    />
+                                                    <svg
+                                                        width="12"
+                                                        height="8"
+                                                        viewBox="0 0 12 8"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className={`transition-transform duration-200 ${
+                                                            isQuestDropdownOpen
+                                                                ? "rotate-180"
+                                                                : ""
+                                                        }`}
+                                                    >
+                                                        <path
+                                                            d="M1 1L6 6L11 1"
+                                                            stroke="#030303"
+                                                            strokeOpacity="0.6"
+                                                            strokeWidth="2"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                    </svg>
                                                 </div>
                                             </button>
 
@@ -726,14 +781,22 @@ export default function LotteryPage() {
                                                             disabled={
                                                                 quest.disabled
                                                             }
-                                                            className={`w-full px-5 py-[7px] h-[42px] flex flex-row justify-between items-center gap-[81px] transition-colors ${
+                                                            className={`w-full px-5 py-[7px] h-[42px] flex flex-row items-center transition-colors ${
                                                                 quest.disabled
                                                                     ? "opacity-40 cursor-not-allowed"
                                                                     : "hover:bg-[#E9E9E9]"
                                                             }`}
                                                         >
                                                             <div className="flex items-center gap-2">
-                                                                <SwitchNetworkIcon />
+                                                                <div
+                                                                    className="w-[22px] h-[22px] rounded-full flex-shrink-0"
+                                                                    style={{
+                                                                        backgroundColor:
+                                                                            quest
+                                                                                .info
+                                                                                .color,
+                                                                    }}
+                                                                />
                                                                 <span className="text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)]">
                                                                     {
                                                                         quest
@@ -749,15 +812,6 @@ export default function LotteryPage() {
                                                                     round
                                                                 </span>
                                                             </div>
-                                                            <div
-                                                                className="w-[22px] h-[22px] rounded-full"
-                                                                style={{
-                                                                    backgroundColor:
-                                                                        quest
-                                                                            .info
-                                                                            .color,
-                                                                }}
-                                                            />
                                                         </button>
                                                     ))}
                                                 </div>
@@ -871,7 +925,10 @@ export default function LotteryPage() {
                     </div>
 
                     {/* Winners Section */}
-                    <div className="w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6">
+                    <div
+                        id="winners-section"
+                        className="w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6"
+                    >
                         <Suspense fallback={<div>Loading winners...</div>}>
                             <WinnersFeed />
                         </Suspense>

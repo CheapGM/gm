@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Image from "@/ui/components/image";
 import { LuSettings2 } from "react-icons/lu";
-import { SwitchNetworkIcon } from "@/ui/components/icon/SwitchNetworkIcon";
 import { useSwitchChain, useAccount } from "wagmi";
 import { CHAINS } from "@/config/chains";
 
@@ -73,22 +72,40 @@ export const LotteryNetworkButton = ({ allowedChainIds }: LotteryNetworkButtonPr
           }
         `}
       >
-        <div className="flex items-center gap-2.5">
-          <SwitchNetworkIcon />
+        <div className="flex items-center gap-2">
+          {currentChainInfo?.iconUrl && (
+            <div
+              className="w-[22px] h-[22px] rounded-full overflow-hidden flex-shrink-0"
+            >
+              <Image
+                width={22}
+                height={22}
+                alt={chain?.name ?? "Chain icon"}
+                src={currentChainInfo.iconUrl}
+              />
+            </div>
+          )}
           <span className="text-sm text-[#030303]">{chain?.name}</span>
         </div>
-        {currentChainInfo?.iconUrl && (
-          <div
-            className="w-[22px] h-[22px] rounded-full overflow-hidden"
-          >
-            <Image
-              width={22}
-              height={22}
-              alt={chain?.name ?? "Chain icon"}
-              src={currentChainInfo.iconUrl}
-            />
-          </div>
-        )}
+        <svg
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={`transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        >
+          <path
+            d="M1 1L6 6L11 1"
+            stroke="#030303"
+            strokeOpacity="0.6"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
 
       {/* Custom dropdown with only allowed networks */}
@@ -101,24 +118,23 @@ export const LotteryNetworkButton = ({ allowedChainIds }: LotteryNetworkButtonPr
             <button
               key={c.id}
               onClick={() => handleNetworkClick(c.id)}
-              className="w-full px-5 h-[42px] flex items-center justify-between hover:bg-[#E9E9E9] transition-colors"
+              className="w-full px-5 h-[42px] flex items-center hover:bg-[#E9E9E9] transition-colors"
             >
-              <div className="flex items-center gap-2.5">
-                <SwitchNetworkIcon />
+              <div className="flex items-center gap-2">
+                {c.iconUrl && (
+                  <div
+                    className="w-[22px] h-[22px] rounded-full overflow-hidden flex-shrink-0"
+                  >
+                    <Image
+                      width={22}
+                      height={22}
+                      alt={c.name ?? "Chain icon"}
+                      src={c.iconUrl}
+                    />
+                  </div>
+                )}
                 <span className="text-sm text-[#030303]">{c.name}</span>
               </div>
-              {c.iconUrl && (
-                <div
-                  className="w-[22px] h-[22px] rounded-full overflow-hidden"
-                >
-                  <Image
-                    width={22}
-                    height={22}
-                    alt={c.name ?? "Chain icon"}
-                    src={c.iconUrl}
-                  />
-                </div>
-              )}
             </button>
           ))}
         </div>

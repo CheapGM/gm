@@ -241,21 +241,24 @@ export function WinnersFeed() {
                 px-[10px] py-[10px] rounded-[9px] text-base font-medium font-poppins transition-all
                 ${
                     selectedUserFilter === "All Users"
-                        ? "bg-[rgba(1,119,231,0.1)] border border-[#0177E7] text-[#0177E7]"
-                        : "text-[#0177E7]"
+                        ? "bg-[#0177E7] text-white"
+                        : "text-[#888888] hover:bg-[rgba(1,119,231,0.05)]"
                 }
               `}
                         >
                             All Users
                         </button>
                         <button
-                            onClick={() => setSelectedUserFilter("My Quests")}
+                            data-my-quests-button
+                            onClick={() => {
+                                setSelectedUserFilter("My Quests");
+                            }}
                             className={`
                 px-[10px] py-[10px] rounded-[9px] text-base font-medium font-poppins transition-all
                 ${
                     selectedUserFilter === "My Quests"
-                        ? "bg-[rgba(1,119,231,0.1)] border border-[#0177E7] text-[#0177E7]"
-                        : "text-[#0177E7] hover:bg-[rgba(1,119,231,0.05)]"
+                        ? "bg-[#0177E7] text-white"
+                        : "text-[#888888] hover:bg-[rgba(1,119,231,0.05)]"
                 }
               `}
                         >
