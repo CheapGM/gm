@@ -44,6 +44,15 @@ const LOTTERY_ALLOWED_CHAINS = [
     8453, // Base mainnet
 ];
 
+const MAX_PARTICIPANTS = 20;
+const WINNERS_COUNT = 4;
+
+const calcWinChance = (n: number) => {
+    const total = Math.min(Math.max(n, 1), MAX_PARTICIPANTS);
+    if (total <= WINNERS_COUNT) return 100;
+    return Math.round((WINNERS_COUNT / total) * 100);
+};
+
 export default function LotteryPage() {
     const { address, isConnected } = useAccount();
     const { openConnectModal } = useConnectModal();
@@ -58,6 +67,15 @@ export default function LotteryPage() {
 
     // TEST: Show modal preview
     const [showTestModal, setShowTestModal] = useState(false);
+
+    // Join confirmation modal state
+    const [showJoinConfirmationModal, setShowJoinConfirmationModal] =
+        useState(false);
+    const [joinConfirmationData, setJoinConfirmationData] = useState<{
+        position: number;
+        totalParticipants: number;
+        winProbability: number;
+    } | null>(null);
 
     // Quest-specific hooks - use selectedQuest
     const { round, refetch } = useCurView(selectedQuest);
@@ -177,14 +195,51 @@ export default function LotteryPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isApproveSuccess]);
 
-    // Refetch data after successful join
+    // Refetch data after successful join and show confirmation modal
     useEffect(() => {
-        if (isJoinSuccess) {
+        if (isJoinSuccess && address) {
             refetch();
             refetchJoined();
             refetchBalance();
+
+            // Get player position after successful join
+            // Wait a bit for the blockchain state to update
+            setTimeout(async () => {
+                try {
+                    // Use the players data we already have
+                    const currentPlayers = players;
+                    const userPosition = currentPlayers.findIndex(
+                        (p) => p.toLowerCase() === address.toLowerCase()
+                    );
+
+                    if (userPosition !== -1) {
+                        const position = userPosition + 1; // Convert to 1-indexed
+                        const totalParticipants = currentPlayers.length;
+
+                        // ---- New: fixed probability model (4 winners, max 20 participants)
+                        const winProbability = calcWinChance(totalParticipants);
+
+                        setJoinConfirmationData({
+                            position,
+                            totalParticipants,
+                            winProbability,
+                        });
+                        setShowJoinConfirmationModal(true);
+                    }
+                } catch (error) {
+                    console.error("Error fetching player position:", error);
+                }
+            }, 2000); // Wait 2 seconds for blockchain update
         }
-    }, [isJoinSuccess, refetch, refetchJoined, refetchBalance]);
+    }, [
+        isJoinSuccess,
+        refetch,
+        refetchJoined,
+        refetchBalance,
+        address,
+        players,
+        selectedQuest,
+    ]);
 
     // Refetch allowance and joined status when quest changes
     useEffect(() => {
@@ -193,6 +248,17 @@ export default function LotteryPage() {
             refetchJoined();
         }
     }, [selectedQuest, address, refetchAllowance, refetchJoined]);
+
+    // Play background music on page load
+    useEffect(() => {
+        // Start background music when component mounts
+        SoundManager.playBackgroundMusic(0.2); // 20% volume
+
+        // Cleanup: stop background music when component unmounts
+        return () => {
+            SoundManager.stopBackgroundMusic();
+        };
+    }, []);
 
     // Play spinner sound when user has joined (only once when status changes)
     const hasPlayedSpinnerSoundRef = useRef(false);
@@ -297,10 +363,13 @@ export default function LotteryPage() {
             return;
         }
 
-        if (players.length >= 20) {
-            toast.error("This round is full (20 players maximum)", {
-                id: "round-full",
-            });
+        if (players.length >= MAX_PARTICIPANTS) {
+            toast.error(
+                `This round is full (${MAX_PARTICIPANTS} players maximum)`,
+                {
+                    id: "round-full",
+                }
+            );
             return;
         }
 
@@ -335,7 +404,6 @@ export default function LotteryPage() {
             return;
         }
 
-        // Step 10: Check allowance and proceed
         if ((allowance || 0n) < entryFee) {
             // Need approval first
             approve();
@@ -388,7 +456,7 @@ export default function LotteryPage() {
 
     const handleQuestSelect = (questType: QuestType) => {
         // Prevent selecting disabled quests
-        const quest = allQuests.find(q => q.type === questType);
+        const quest = allQuests.find((q) => q.type === questType);
         if (quest?.disabled) return;
 
         setSelectedQuest(questType);
@@ -417,6 +485,12 @@ export default function LotteryPage() {
         if ((allowance || 0n) < entryFee) return "Approve";
         return "Deposit";
     };
+
+    const previewPlayersCount = Math.min(
+        players.length + (hasJoined ? 0 : 1),
+        MAX_PARTICIPANTS
+    );
+    const estimatedProbability = calcWinChance(previewPlayersCount);
 
     return (
         <main className="min-h-screen bg-[#F7F9FA] pt-[102px]">
@@ -649,7 +723,9 @@ export default function LotteryPage() {
                                                                     quest.type
                                                                 )
                                                             }
-                                                            disabled={quest.disabled}
+                                                            disabled={
+                                                                quest.disabled
+                                                            }
                                                             className={`w-full px-5 py-[7px] h-[42px] flex flex-row justify-between items-center gap-[81px] transition-colors ${
                                                                 quest.disabled
                                                                     ? "opacity-40 cursor-not-allowed"
@@ -712,7 +788,7 @@ export default function LotteryPage() {
                                                 Estimated Probability (dynamic)
                                             </span>
                                             <span className="text-base font-medium leading-[1.5em] text-[rgba(3,3,3,0.6)]">
-                                                50%
+                                                {estimatedProbability}%
                                             </span>
                                         </div>
                                     </div>
@@ -730,7 +806,7 @@ export default function LotteryPage() {
                             </div>
                         </div>
                         {/* NFT Carousel */}
-                        <div className="w-full mb-6 relative">
+                        <div className="w-full relative -mt-8">
                             {/* Prize Pool Info - Positioned above carousel */}
                             <div className="absolute -top-[70px] left-0">
                                 <PrizePoolInfo />
@@ -803,7 +879,25 @@ export default function LotteryPage() {
                 </div>
             </Container>
 
-            {/* Round Results Modal */}
+            {/* Join Confirmation Modal - Shows immediately after joining */}
+            {showJoinConfirmationModal && joinConfirmationData && (
+                <RoundResultModal
+                    roundId={round?.id || 0}
+                    chainId={chainId}
+                    position={joinConfirmationData.position}
+                    totalParticipants={joinConfirmationData.totalParticipants}
+                    winProbability={joinConfirmationData.winProbability}
+                    isWinner={false}
+                    prize={null}
+                    questType={selectedQuest.toUpperCase()}
+                    onClose={() => {
+                        setShowJoinConfirmationModal(false);
+                        setJoinConfirmationData(null);
+                    }}
+                />
+            )}
+
+            {/* Round Results Modal - Only shows if user won */}
             {pendingResults.length > 0 && (
                 <RoundResultModal
                     roundId={pendingResults[0].result.roundId}

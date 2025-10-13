@@ -3,6 +3,8 @@ export class SoundManager {
   private static audioContext: AudioContext | null = null;
   private static audioBuffers: Map<string, AudioBuffer> = new Map();
   private static currentSpinnerSource: AudioBufferSourceNode | null = null;
+  private static backgroundMusicSource: AudioBufferSourceNode | null = null;
+  private static backgroundMusicGainNode: GainNode | null = null;
 
   // Initialize audio context
   private static getAudioContext(): AudioContext {
@@ -95,6 +97,70 @@ export class SoundManager {
       source.start(0);
     } catch (error) {
       console.error('Failed to play winner sound:', error);
+    }
+  }
+
+  // Play background music (looping)
+  static async playBackgroundMusic(volume: number = 0.3): Promise<void> {
+    // Stop any currently playing background music
+    this.stopBackgroundMusic();
+
+    try {
+      const audioBuffer = await this.loadAudio('/gifsAndSounds/lottery.mp3');
+      const audioContext = this.getAudioContext();
+
+      // Create gain node for volume control
+      const gainNode = audioContext.createGain();
+      gainNode.gain.value = volume;
+      this.backgroundMusicGainNode = gainNode;
+
+      // Create source
+      const source = audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.loop = true; // Enable looping
+
+      // Connect: source -> gain -> destination
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      source.start(0);
+      this.backgroundMusicSource = source;
+
+      // Auto-cleanup when sound ends (shouldn't happen with loop enabled)
+      source.onended = () => {
+        this.backgroundMusicSource = null;
+        this.backgroundMusicGainNode = null;
+      };
+    } catch (error) {
+      console.error('Failed to play background music:', error);
+    }
+  }
+
+  // Stop background music
+  static stopBackgroundMusic(): void {
+    if (this.backgroundMusicSource) {
+      try {
+        this.backgroundMusicSource.stop();
+        this.backgroundMusicSource.disconnect();
+      } catch (error) {
+        // Ignore errors if already stopped
+      }
+      this.backgroundMusicSource = null;
+    }
+    if (this.backgroundMusicGainNode) {
+      try {
+        this.backgroundMusicGainNode.disconnect();
+      } catch (error) {
+        // Ignore errors
+      }
+      this.backgroundMusicGainNode = null;
+    }
+  }
+
+  // Set background music volume
+  static setBackgroundMusicVolume(volume: number): void {
+    if (this.backgroundMusicGainNode) {
+      this.backgroundMusicGainNode.gain.value = Math.max(0, Math.min(1, volume));
     }
   }
 }

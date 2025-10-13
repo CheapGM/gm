@@ -215,3 +215,32 @@ table {
 .hide-scroll-bar::-webkit-scrollbar {
   display: none;
 }
+
+/* NFT Carousel Animations */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(194px); /* width of card (188px) + gap (6px) */
+  }
+}
+
+.animate-slideInFromLeft {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+}
+
+.animate-slideRight {
+  animation: slideRight 0.5s ease-out forwards;
+}
