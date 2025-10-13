@@ -12,6 +12,7 @@ import {
 import { QUEST_CONFIGS, QUEST_COMMON_CONFIG } from '@/config/bronze-quest';
 import Image from 'next/image';
 import FlipClock from '@/ui/components/FlipClock';
+import { SoundManager } from '@/lib/utils/sound';
 
 interface QuestStatusCardProps {
   questType: QuestType;
@@ -173,12 +174,18 @@ export function QuestStatusCard({
   // Get contract address for etherscan link
   const contractAddress = questConfig.address;
 
+  // Handle click with sound
+  const handleClick = () => {
+    SoundManager.playButtonClick();
+    onClick?.();
+  };
+
   return (
     <div
       className={`bg-white rounded-[20px] border p-10 flex flex-row gap-6 w-full transition-all cursor-pointer ${
         isSelected ? 'border-[#0177E7] border-[3px]' : 'border-[#A9D5FF] hover:border-[#0177E7]/50'
       }`}
-      onClick={onClick}
+      onClick={handleClick}
     >
       {/* Left Column - NFT Image */}
       <div className="flex flex-col items-center flex-shrink-0 w-[201px]">
@@ -221,7 +228,7 @@ export function QuestStatusCard({
             {/* Right Side - Round Badge */}
             <div className="flex items-center gap-2">
               <div className="rounded-xl px-2 py-0.5 flex items-center gap-1.5">
-                <span className="text-sm" style={{ color: questColor }}>
+                <span className="text-sm text-white">
                   {roundValue}
                 </span>
                 <span className="text-sm text-white"> round</span>

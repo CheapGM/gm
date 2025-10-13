@@ -126,8 +126,8 @@ export function useApproveUSDT(questType: QuestType = 'bronze') {
   });
 
   const approve = () => {
-    // Approve unlimited amount (max uint256)
-    const MAX_UINT256 = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+    // Approve only the entry fee amount (not unlimited)
+    const entryFeeAmount = questConfig.entryFeeWei;
 
     writeContract({
       address: QUEST_COMMON_CONFIG.USDT_ADDRESS,
@@ -144,7 +144,7 @@ export function useApproveUSDT(questType: QuestType = 'bronze') {
         },
       ] as const,
       functionName: 'approve',
-      args: [questConfig.address, MAX_UINT256],
+      args: [questConfig.address, entryFeeAmount],
     });
   };
 
