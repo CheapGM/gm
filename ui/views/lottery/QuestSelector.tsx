@@ -49,7 +49,7 @@ export function QuestSelector({ selected, onSelect }: QuestSelectorProps) {
   };
 
   return (
-    <div className="flex flex-col justify-center gap-[17px]">
+    <div className="flex flex-col tablet:flex-row tablet:flex-wrap justify-center gap-[17px] tablet:gap-2">
       {quests.map((quest) => (
         <button
           key={quest.id}
@@ -57,7 +57,7 @@ export function QuestSelector({ selected, onSelect }: QuestSelectorProps) {
           disabled={quest.disabled}
           className={`
             flex flex-row items-center gap-[4px]
-            w-[159px] h-[42px] px-[14px] py-[7px] rounded-xl
+            w-[159px] tablet:flex-1 tablet:min-w-[140px] h-[42px] tablet:h-[38px] px-[14px] tablet:px-3 py-[7px] tablet:py-1.5 rounded-xl tablet:rounded-lg
             transition-all duration-200
             ${
               quest.disabled
@@ -69,12 +69,12 @@ export function QuestSelector({ selected, onSelect }: QuestSelectorProps) {
           `}
         >
           <div
-            className="w-[22px] h-[22px] rounded-full flex items-center justify-center text-xs"
+            className="w-[22px] h-[22px] tablet:w-[18px] tablet:h-[18px] rounded-full flex items-center justify-center text-xs"
             style={{ backgroundColor: quest.iconBg }}
           >
             {quest.icon}
           </div>
-          <span className="text-sm text-[#030303]">{quest.name}</span>
+          <span className="text-sm tablet:text-xs text-[#030303]">{quest.name}</span>
         </button>
       ))}
     </div>

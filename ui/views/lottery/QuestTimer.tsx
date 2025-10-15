@@ -63,29 +63,29 @@ export function QuestTimer({ startedAt, intervalSec = 600, onTimerEnd }: QuestTi
   };
 
   return (
-    <div className="flex flex-row justify-between items-center w-full gap-[18px] h-[42px]">
+    <div className="flex flex-row tablet:flex-col justify-between items-center tablet:items-start w-full gap-[18px] tablet:gap-2 h-[42px] tablet:h-auto">
       {/* Left: Title */}
-      <h3 className="text-[24px] font-medium leading-[1.06em] text-[#243300] font-unbounded">
+      <h3 className="text-[24px] tablet:text-[20px] font-medium leading-[1.06em] text-[#243300] font-unbounded">
         Your GM Quest
       </h3>
 
       {/* Right: Timer info - only show when startedAt is available */}
       {startedAt && (
-        <div className="flex flex-row items-center gap-[18px] px-3 py-[7px] rounded-xl bg-[rgba(169,213,255,0.19)] border-2 border-[#05ABFF]">
+        <div className="flex flex-row items-center gap-[18px] tablet:gap-2 px-3 tablet:px-2 py-[7px] tablet:py-1.5 rounded-xl tablet:rounded-lg bg-[rgba(169,213,255,0.19)] border-2 border-[#05ABFF]">
           {/* Time range */}
-          <div className="flex items-center gap-2.5 whitespace-nowrap">
-            <img src="/quest-icons/timer-icon.svg" alt="" className="w-4 h-4" />
-            <span className="text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)] font-poppins">
+          <div className="flex items-center gap-2.5 tablet:gap-1.5 whitespace-nowrap">
+            <img src="/quest-icons/timer-icon.svg" alt="" className="w-4 h-4 tablet:w-3 tablet:h-3" />
+            <span className="text-sm tablet:text-xs leading-[1.5em] text-[rgba(3,3,3,0.6)] font-poppins">
               {timeRange.start}-{timeRange.end} CET
             </span>
           </div>
 
           {/* Countdown - two separate parts to prevent jumping */}
           <div className="flex items-center gap-1">
-            <span className="text-sm font-semibold leading-[1.5em] text-[#0177E7] font-poppins tabular-nums w-[42px] text-right">
+            <span className="text-sm tablet:text-xs font-semibold leading-[1.5em] text-[#0177E7] font-poppins tabular-nums w-[42px] tablet:w-[36px] text-right">
               {formatTimeLeft(timeLeft)}
             </span>
-            <span className="text-sm font-semibold leading-[1.5em] text-[#0177E7] font-poppins">
+            <span className="text-sm tablet:text-xs font-semibold leading-[1.5em] text-[#0177E7] font-poppins">
               Left
             </span>
           </div>

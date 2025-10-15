@@ -42,7 +42,7 @@ const rewardsData = [
 
 export function RewardsRow() {
     return (
-        <div className="flex flex-row justify-stretch items-stretch gap-[9px] w-full">
+        <div className="flex flex-row tablet:flex-col justify-stretch items-stretch gap-[9px] tablet:gap-3 w-full">
             {rewardsData.map((reward, index) => (
                 <RewardCard key={index} {...reward} />
             ))}

@@ -33,7 +33,7 @@ export function SpinButton({
     <button
       onClick={handleClick}
       disabled={disabled}
-      className="relative w-[251px] h-[160px] group transition-all duration-150 hover:translate-y-1 active:translate-y-2 disabled:opacity-60 disabled:cursor-not-allowed"
+      className="relative w-[251px] h-[160px] tablet:w-[140px] tablet:h-[90px] group transition-all duration-150 hover:translate-y-1 active:translate-y-2 disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {/* Button Background Image */}
       <Image
@@ -45,20 +45,15 @@ export function SpinButton({
         priority
       />
 
-      {/* Button Text Overlay - Positioned according to Figma */}
       {buttonText && (
         <div
-          className="absolute"
-          style={{
-            left: '50%',
-            top: '30px',
-            transform: 'translateX(-50%)',
-          }}
+          className="absolute left-1/2 -translate-x-1/2 top-[30px] tablet:top-[10px]"
         >
           <span
-            className="font-poppins whitespace-nowrap"
+            className={`font-poppins whitespace-nowrap ${
+              needsSmallerFont ? 'text-[15px] tablet:text-[7px]' : needsMediumFont ? 'text-[20px] tablet:text-[10px]' : 'text-[28px] tablet:text-[10px]'
+            }`}
             style={{
-              fontSize: needsSmallerFont ? '15px' : needsMediumFont ? '20px' : '28px', // 15px for very long, 20px for medium, 28px default
               fontWeight: 400,
               lineHeight: '1.108em',
               letterSpacing: '0.01em',

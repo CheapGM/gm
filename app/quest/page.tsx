@@ -8,15 +8,21 @@ import { toast } from "sonner";
 import { SoundManager } from "@/lib/utils/sound";
 import {
     WinnersFeed,
+    NFTCarouselMobile,
     QuestSelector,
     QuestInfo,
     QuestStatusCard,
+    QuestStatusCardMobile,
     ParticipantsList,
     RewardsRow,
     SpinButton,
     NFTCarousel,
     QuestTimer,
     PrizePoolInfo,
+    HeroSection,
+    ParticipantsGrid,
+    RewardDistribution,
+    QuestDropdown,
 } from "@/ui/views/lottery";
 import {
     useCurView,
@@ -491,11 +497,10 @@ export default function LotteryPage() {
     const estimatedProbability = calcWinChance(previewPlayersCount);
 
     return (
-        <main className="min-h-screen bg-[#F7F9FA] pt-[102px]">
+        <main className="min-h-screen bg-[#F7F9FA] pt-[102px] tablet:pt-[80px] overflow-x-hidden">
             <NetworkSwitcher targetChainId={8453} autoSwitch={true} />
 
-            {/* TEST BUTTON - Remove in production */}
-            <div className="fixed top-4 right-4 z-50">
+            <div className="fixed top-4 right-4 z-50 tablet:hidden">
                 <button
                     onClick={() => setShowTestModal(true)}
                     className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg"
@@ -504,27 +509,344 @@ export default function LotteryPage() {
                 </button>
             </div>
 
-            <Container className="py-8">
-                <div className="flex flex-col items-center gap-8 w-full max-w-[1376px] mx-auto">
-                    {/* Title section */}
-                    <div className="flex flex-col items-center w-full">
-                        <h1 className="text-[48px] font-semibold leading-[1.5em] tracking-[-0.06em] text-[#030303] mb-0">
+            <Container className="py-8 tablet:py-4 tablet:px-0 mobile:px-4">
+                <div className="flex flex-col items-center gap-8 tablet:gap-4 w-full max-w-[1376px] tablet:max-w-full mx-auto tablet:px-4 mobile:px-0">
+                    {/* Title section - Mobile: Shows before hero */}
+                    <div className="flex flex-col items-center w-full tablet:gap-[5px]">
+                        <h1 className="text-[48px] tablet:text-[24px] font-semibold leading-[1.5em] tracking-[-0.06em] text-[#030303] mb-0 tablet:text-center">
                             GM Quest
                         </h1>
-                        <p className="text-[14px] leading-[1.5em] text-[#888888] text-center">
+                        <p className="text-[14px] tablet:text-[12px] leading-[1.5em] text-[#888888] text-center tablet:hidden">
                             Quest on CheapGm - 4 quest - 95% in rewards
                         </p>
                     </div>
 
-                    {/* Main Quest Section */}
-                    <div className="bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6 w-full flex flex-col gap-[88px]">
+                    {/* Hero Section - Mobile Only (after heading) */}
+                    <HeroSection />
+
+                    {/* Mobile Spin Card - Single white card with all content */}
+                    <div className="hidden tablet:flex flex-col w-full bg-white rounded-xl p-[18px_12px] gap-6">
+                        {/* Network Selector */}
+                        <div className="bg-[rgba(241,241,241,0.6)] rounded-xl px-4 py-3">
+                            {isConnected ? (
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-xs text-[#888888]">
+                                            Current Network
+                                        </span>
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="w-2 h-2 rounded-full bg-[#0C9B4A]" />
+                                            <span className="text-[#0C9B4A] text-xs">
+                                                Connected
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <LotteryNetworkButton
+                                        allowedChainIds={LOTTERY_ALLOWED_CHAINS}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-[#FF4D4F]" />
+                                        <span className="text-[#FF4D4F] text-sm">
+                                            Not connected
+                                        </span>
+                                    </div>
+                                    <Button
+                                        onClick={openConnectModal}
+                                        className="w-full bg-[#0177E7] text-white font-medium rounded-xl py-2 text-sm"
+                                    >
+                                        Connect
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Quest Selection Card - Mobile (same as desktop) */}
+                        <div className="bg-[rgba(241,241,241,0.6)] rounded-xl py-4 px-4 flex flex-col justify-center gap-3">
+                            <div className="flex flex-col gap-3 w-full relative">
+                                {/* Header */}
+                                <div className="flex flex-row justify-between w-full gap-1">
+                                    <span className="text-sm leading-[1.5em] text-[#888888]">
+                                        Choose Quest
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-[#0C9B4A]" />
+                                        <span className="text-sm leading-[1.5em] text-[#0C9B4A]">
+                                            Connected
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Quest Selector Button */}
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsQuestDropdownOpen(
+                                            !isQuestDropdownOpen
+                                        );
+                                    }}
+                                    className="bg-[#F1F1F1] border border-[#E6E6E6] rounded-xl px-5 py-[7px] h-[42px] flex flex-col justify-center w-full hover:bg-[#E9E9E9] transition-colors"
+                                >
+                                    <div className="flex flex-row justify-between items-center w-full">
+                                        <div className="flex items-center gap-2">
+                                            <div
+                                                className="w-[22px] h-[22px] rounded-full flex-shrink-0"
+                                                style={{
+                                                    backgroundColor:
+                                                        currentQuestInfo.color,
+                                                }}
+                                            />
+                                            <span className="text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)]">
+                                                {currentQuestInfo.name} -{" "}
+                                                {currentQuestInfo.amount} round
+                                            </span>
+                                        </div>
+                                        <svg
+                                            width="12"
+                                            height="8"
+                                            viewBox="0 0 12 8"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className={`transition-transform duration-200 ${
+                                                isQuestDropdownOpen
+                                                    ? "rotate-180"
+                                                    : ""
+                                            }`}
+                                        >
+                                            <path
+                                                d="M1 1L6 6L11 1"
+                                                stroke="#030303"
+                                                strokeOpacity="0.6"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </div>
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                {isQuestDropdownOpen && (
+                                    <div
+                                        className="absolute top-full left-0 right-0 mt-1 bg-[#F1F1F1] border border-[#E6E6E6] rounded-xl overflow-hidden z-10 shadow-lg"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        {allQuests.map((quest) => (
+                                            <button
+                                                key={quest.type}
+                                                onClick={() =>
+                                                    handleQuestSelect(quest.type)
+                                                }
+                                                disabled={quest.disabled}
+                                                className={`w-full px-5 py-[7px] h-[42px] flex flex-row items-center transition-colors ${
+                                                    quest.disabled
+                                                        ? "opacity-40 cursor-not-allowed"
+                                                        : "hover:bg-[#E9E9E9]"
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    <div
+                                                        className="w-[22px] h-[22px] rounded-full flex-shrink-0"
+                                                        style={{
+                                                            backgroundColor:
+                                                                quest.info.color,
+                                                        }}
+                                                    />
+                                                    <span className="text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)]">
+                                                        {quest.info.name} -{" "}
+                                                        {quest.info.amount} round
+                                                    </span>
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Platform Contribution & Probability */}
+                        <div className="bg-[rgba(241,241,241,0.3)] border border-[rgba(230,230,230,0.52)] rounded-2xl px-5 py-3 flex flex-col gap-2.5">
+                            <div className="flex justify-between items-center">
+                                <span className="text-xs text-[#888888]">
+                                    Platform contribution
+                                </span>
+                                <span className="text-sm font-medium text-[rgba(3,3,3,0.6)]">
+                                    5%
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-xs text-[#888888]">
+                                    Estimated Probability (dynamic)
+                                </span>
+                                <span className="text-sm font-medium text-[rgba(3,3,3,0.6)]">
+                                    {estimatedProbability}%
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Wheel */}
+                        <div className="w-full h-[280px] flex items-center justify-center relative">
+                            <div
+                                className="absolute w-[240px] h-[240px]"
+                                style={{ opacity: showSpinningWheel ? 0 : 1 }}
+                            >
+                                <Image
+                                    src="/img/spin.png"
+                                    alt="GM Lottery Wheel"
+                                    fill
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
+                            <div
+                                key={showSpinningWheel ? Date.now() : "static"}
+                                className="absolute w-[280px] h-[280px]"
+                                style={{
+                                    opacity: showSpinningWheel ? 1 : 0,
+                                    pointerEvents: showSpinningWheel
+                                        ? "auto"
+                                        : "none",
+                                }}
+                            >
+                                <Image
+                                    src="/gifsAndSounds/Spin%20Wheel.gif"
+                                    alt="GM Lottery Wheel Spinning"
+                                    fill
+                                    className="object-contain"
+                                    unoptimized
+                                />
+                            </div>
+                        </div>
+
+                        {/* Spin Button - Mobile */}
+                        <div className="flex items-center justify-center">
+                            <SpinButton
+                                onClick={handleQuestButtonClick}
+                                disabled={isButtonDisabled}
+                                buttonText={getButtonText()}
+                                isLoading={isLoading}
+                            />
+                        </div>
+
+                        {/* Timer */}
+                        <QuestTimer
+                            startedAt={round?.startedAt}
+                            intervalSec={600}
+                            onTimerEnd={handleTimerEnd}
+                        />
+
+                        {/* Quest Selection Cards - Below spin button - 2x2 Grid */}
+                        <div className="grid grid-cols-2 gap-2.5 w-full">
+                            {allQuests.map((quest) => {
+                                const priceValue = quest.info.amount.replace(
+                                    " USDT",
+                                    ""
+                                );
+                                return (
+                                    <button
+                                        key={quest.type}
+                                        onClick={() =>
+                                            handleQuestSelect(quest.type)
+                                        }
+                                        disabled={quest.disabled}
+                                        className={`flex items-center justify-between gap-[18px] px-3 py-[7px] h-[35px] rounded-xl border ${
+                                            quest.type === selectedQuest
+                                                ? "bg-[rgba(169,213,255,0.19)] border-[#05ABFF] border-[1.5px]"
+                                                : "bg-[rgba(241,241,241,0.4)] border-[rgba(230,230,230,0.52)]"
+                                        } ${
+                                            quest.disabled
+                                                ? "opacity-50 cursor-not-allowed"
+                                                : ""
+                                        }`}
+                                    >
+                                        <span className="text-sm font-normal">
+                                            <span className="text-[rgba(3,3,3,0.6)]">
+                                                {quest.info.name.replace(
+                                                    " Quest",
+                                                    ""
+                                                )}{" "}
+                                                -{" "}
+                                            </span>
+                                            <span className="text-[#0177E7]">
+                                                ${priceValue}
+                                            </span>
+                                        </span>
+                                        <div
+                                            className="w-4 h-4 rounded-full flex-shrink-0"
+                                            style={{
+                                                backgroundColor:
+                                                    quest.info.color,
+                                            }}
+                                        />
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Participants Grid */}
+                        <ParticipantsGrid
+                            participants={players}
+                            currentUser={address}
+                        />
+
+                        {/* Disclaimer */}
+                        <div className="bg-[rgba(241,241,241,0.3)] border border-[rgba(230,230,230,0.52)] rounded-2xl px-3 py-3">
+                            <p className="text-[10px] text-[#888888] leading-[1.5em] text-center">
+                                Results are generated by verifiable on-chain
+                                randomness (Chainlink VRF). No servers, no
+                                databases — every outcome can be checked on the
+                                blockchain.
+                            </p>
+                        </div>
+
+                        {/* Reward Distribution */}
+                        <div className="flex flex-col gap-6">
+                            <div className="inline-flex w-fit bg-[rgba(169,213,255,0.19)] border border-[#05ABFF] rounded-xl px-3 py-2 mx-auto">
+                                <span className="text-xs text-[rgba(3,3,3,0.6)]">
+                                    🏆 Reward Distribution
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-4 gap-2.5">
+                                {[
+                                    { place: "1st", percentage: "50%" },
+                                    { place: "2nd", percentage: "20%" },
+                                    { place: "3rd", percentage: "15%" },
+                                    { place: "4th", percentage: "10%" },
+                                ].map((reward) => (
+                                    <div
+                                        key={reward.place}
+                                        className="bg-[rgba(241,241,241,0.6)] rounded-2xl p-3 flex flex-col gap-3"
+                                    >
+                                        <span className="text-sm font-semibold text-[#12694A] w-fit mx-auto">
+                                            {reward.place}
+                                        </span>
+                                        <div className="bg-[#F1F1F1] border border-[#E6E6E6] rounded-xl px-3 py-2 flex items-center justify-center">
+                                            <span className="text-xs font-semibold text-[#0177E7]">
+                                                {reward.percentage}
+                                            </span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <NFTCarouselMobile />
+                            </Suspense>
+                        </div>
+                    </div>
+
+                    <div className="tablet:hidden bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6 w-full flex flex-col gap-[88px]">
                         {/* Rewards Row - Top */}
                         <RewardsRow />
 
                         {/* Main Content - Bottom */}
                         <div className="flex flex-row justify-between gap-[46px]">
                             {/* Left Column */}
-                            <div className="flex flex-col items-center gap-[21px] w-[818px] h-[614px]">
+                            <div className="flex flex-col items-center gap-[21px] tablet:gap-4 w-[818px] tablet:w-full h-[614px] tablet:h-auto">
                                 {/* Timer Header */}
                                 <QuestTimer
                                     startedAt={round?.startedAt}
@@ -533,9 +855,9 @@ export default function LotteryPage() {
                                 />
 
                                 {/* Main content with wheel and selectors */}
-                                <div className="flex flex-row gap-[0px] relative">
+                                <div className="flex flex-row tablet:flex-col gap-[0px] tablet:gap-4 relative">
                                     {/* Quest Selector Column */}
-                                    <div className="h-[347px]">
+                                    <div className="h-[347px] tablet:h-auto">
                                         <QuestSelector
                                             selected={selectedQuest}
                                             onSelect={setSelectedQuest}
@@ -543,15 +865,13 @@ export default function LotteryPage() {
                                     </div>
 
                                     {/* Wheel Container */}
-                                    <div className="w-[431px] flex flex-col items-center">
+                                    <div className="w-[431px] tablet:w-full flex flex-col items-center tablet:max-w-[280px] tablet:mx-auto">
                                         {/* Wheel */}
-                                        <div className="w-full h-[440px] flex items-center justify-center relative">
+                                        <div className="w-full h-[440px] tablet:h-[280px] flex items-center justify-center relative">
                                             {/* Static wheel - always present */}
                                             <div
-                                                className="absolute"
+                                                className="absolute w-[328.5px] h-[328.5px] tablet:w-[240px] tablet:h-[240px]"
                                                 style={{
-                                                    width: "328.5px",
-                                                    height: "328.5px",
                                                     opacity: showSpinningWheel
                                                         ? 0
                                                         : 1,
@@ -572,10 +892,8 @@ export default function LotteryPage() {
                                                         ? Date.now()
                                                         : "static"
                                                 }
-                                                className="absolute"
+                                                className="absolute w-[380px] h-[380px] tablet:w-[280px] tablet:h-[280px]"
                                                 style={{
-                                                    width: "380px",
-                                                    height: "380px",
                                                     opacity: showSpinningWheel
                                                         ? 1
                                                         : 0,
@@ -623,22 +941,34 @@ export default function LotteryPage() {
                                                     myQuestsButton.click();
                                                 }
                                             }}
-                                            className="w-[118px] bg-[#0177E7] text-white rounded-xl px-2 py-[0.5rem] font-base text-base hover:bg-[#0165CC] transition-colors absolute bottom-0 right-0 font-poppins"
+                                            className="w-[118px] tablet:w-full bg-[#0177E7] text-white rounded-xl px-2 py-[0.5rem] font-base text-base hover:bg-[#0165CC] transition-colors absolute tablet:relative bottom-0 right-0 tablet:bottom-auto tablet:right-auto font-poppins"
                                         >
                                             My Quests
                                         </button>
                                     </div>
 
-                                    {/* Participants List */}
-                                    <ParticipantsList participants={players} />
+                                    {/* Participants List - Desktop */}
+                                    <div className="tablet:hidden">
+                                        <ParticipantsList
+                                            participants={players}
+                                        />
+                                    </div>
+
+                                    {/* Participants Grid - Mobile */}
+                                    <div className="hidden tablet:block">
+                                        <ParticipantsGrid
+                                            participants={players}
+                                            currentUser={address}
+                                        />
+                                    </div>
                                 </div>
 
                                 {/* Disclaimer */}
-                                <div className="bg-[rgba(241,241,241,0.5)] border border-[#E6E6E6] rounded-2xl px-5 py-3 flex items-center justify-center w-full">
-                                    <p className="text-sm font-medium text-[#888888] leading-[1.43em] tracking-[0.01em] text-center">
+                                <div className="bg-[rgba(241,241,241,0.5)] border border-[#E6E6E6] rounded-2xl tablet:rounded-xl px-5 tablet:px-3 py-3 tablet:py-2 flex items-center justify-center w-full">
+                                    <p className="text-sm tablet:text-xs font-medium text-[#888888] leading-[1.43em] tracking-[0.01em] text-center">
                                         Results are generated by verifiable
                                         on-chain randomness (Chainlink VRF).{" "}
-                                        <br />
+                                        <br className="tablet:hidden" />
                                         No servers, no databases — every outcome
                                         can be checked on the blockchain.
                                     </p>
@@ -646,11 +976,11 @@ export default function LotteryPage() {
                             </div>
 
                             {/* Right Column */}
-                            <div className="flex flex-col items-center w-[525px]">
+                            <div className="flex flex-col items-center w-[525px] tablet:w-full">
                                 {/* Cards + Info Block */}
-                                <div className="flex flex-col w-full h-[515px] gap-[11px]">
+                                <div className="flex flex-col w-full h-[515px] tablet:h-auto gap-[11px] tablet:gap-3">
                                     {/* Current Network Card */}
-                                    <div className="bg-[rgba(241,241,241,0.6)] rounded-2xl px-5 py-6">
+                                    <div className="bg-[rgba(241,241,241,0.6)] rounded-2xl tablet:rounded-xl px-5 tablet:px-4 py-6 tablet:py-4">
                                         {isConnected ? (
                                             <div className="space-y-3">
                                                 <div className="flex items-center justify-between">
@@ -693,7 +1023,7 @@ export default function LotteryPage() {
                                     </div>
 
                                     {/* Quest Selection Card */}
-                                    <div className="bg-[rgba(241,241,241,0.6)] rounded-2xl py-6 px-5 flex flex-col justify-center gap-5">
+                                    <div className="bg-[rgba(241,241,241,0.6)] rounded-2xl tablet:rounded-xl py-6 tablet:py-4 px-5 tablet:px-4 flex flex-col justify-center gap-5 tablet:gap-3">
                                         <div className="flex flex-col gap-3 w-full relative">
                                             {/* Header */}
                                             <div className="flex flex-row justify-between w-full gap-1">
@@ -869,12 +1199,62 @@ export default function LotteryPage() {
                         </div>
                     </div>
 
+                    {/* Disclaimer - Desktop only */}
+                    <div className="tablet:hidden w-full max-w-[1006px] mx-auto bg-[rgba(241,241,241,0.5)] border border-[#E6E6E6] rounded-[12px] px-6 py-4">
+                        <p className="text-sm leading-[1.5em] text-[#888888] text-center">
+                            <span className="font-medium">
+                                Randomness Source : Chainlink VRF
+                            </span>
+                            <br />
+                            CheapGM Quests are skill-based on-chain experiments
+                            with verifiable randomness.
+                            <br />
+                            Results cannot be altered or influenced by any third
+                            party. This is not gambling — all outcomes are
+                            transparent, on-chain, and provable.
+                        </p>
+                    </div>
+
                     {/* Quest Status Section */}
                     <div className="w-full">
                         <h2 className="text-2xl font-semibold text-[#030303] mb-6">
                             Quest Status
                         </h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        {/* Mobile: 1 column - shows on screens <= 768px */}
+                        <div className="tablet:flex flex-col gap-3 hidden">
+                            <QuestStatusCardMobile
+                                questType="bronze"
+                                chainId={8453}
+                                isSelected={selectedQuest === "bronze"}
+                                onClick={() => setSelectedQuest("bronze")}
+                            />
+                            <QuestStatusCardMobile
+                                questType="silver"
+                                chainId={8453}
+                                isSelected={selectedQuest === "silver"}
+                                onClick={() => setSelectedQuest("silver")}
+                            />
+                            <div className="relative">
+                                <QuestStatusCardMobile
+                                    questType="gold"
+                                    chainId={8453}
+                                    isSelected={selectedQuest === "gold"}
+                                    onClick={() => {}}
+                                />
+                                <div className="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] rounded-2xl cursor-not-allowed" />
+                            </div>
+                            <div className="relative">
+                                <QuestStatusCardMobile
+                                    questType="crystal"
+                                    chainId={8453}
+                                    isSelected={selectedQuest === "crystal"}
+                                    onClick={() => {}}
+                                />
+                                <div className="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] rounded-2xl cursor-not-allowed" />
+                            </div>
+                        </div>
+                        {/* Desktop: 2 columns - shows on screens > 768px */}
+                        <div className="grid grid-cols-2 gap-4 tablet:hidden">
                             <QuestStatusCard
                                 questType="bronze"
                                 chainId={8453}
@@ -908,9 +1288,9 @@ export default function LotteryPage() {
                         </div>
                     </div>
 
-                    {/* Disclaimer Below Quest Cards */}
-                    <div className="w-full max-w-[1006px] mx-auto bg-[rgba(241,241,241,0.5)] border border-[#E6E6E6] rounded-[12px] px-6 py-4">
-                        <p className="text-sm leading-[1.5em] text-[#888888] text-center">
+                    {/* Disclaimer - Mobile only */}
+                    <div className="hidden tablet:block w-full bg-[rgba(241,241,241,0.5)] border border-[#E6E6E6] rounded-[12px] px-6 py-4">
+                        <p className="text-[7px] leading-[1.5em] text-[#888888] text-center">
                             <span className="font-medium">
                                 Randomness Source : Chainlink VRF
                             </span>
@@ -924,11 +1304,15 @@ export default function LotteryPage() {
                         </p>
                     </div>
 
-                    {/* Winners Section */}
-                    <div
-                        id="winners-section"
-                        className="w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6"
-                    >
+                    {/* Winners Section - Mobile */}
+                    <div id="winners-section" className="hidden tablet:block">
+                        <Suspense fallback={<div>Loading winners...</div>}>
+                            <WinnersFeed />
+                        </Suspense>
+                    </div>
+
+                    {/* Winners Section - Desktop Only */}
+                    <div className="tablet:hidden w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6">
                         <Suspense fallback={<div>Loading winners...</div>}>
                             <WinnersFeed />
                         </Suspense>
