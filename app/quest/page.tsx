@@ -686,36 +686,15 @@ export default function LotteryPage() {
                             </div>
                         </div>
 
-                        {/* Wheel */}
+                        {/* Wheel - Static on mobile */}
                         <div className="w-full h-[280px] flex items-center justify-center relative">
-                            <div
-                                className="absolute w-[240px] h-[240px]"
-                                style={{ opacity: showSpinningWheel ? 0 : 1 }}
-                            >
+                            <div className="absolute w-[240px] h-[240px]">
                                 <Image
                                     src="/img/spin.png"
                                     alt="GM Lottery Wheel"
                                     fill
                                     className="object-contain"
                                     priority
-                                />
-                            </div>
-                            <div
-                                key={showSpinningWheel ? Date.now() : "static"}
-                                className="absolute w-[280px] h-[280px]"
-                                style={{
-                                    opacity: showSpinningWheel ? 1 : 0,
-                                    pointerEvents: showSpinningWheel
-                                        ? "auto"
-                                        : "none",
-                                }}
-                            >
-                                <Image
-                                    src="/gifsAndSounds/SpinWheel.gif"
-                                    alt="GM Lottery Wheel Spinning"
-                                    fill
-                                    className="object-contain"
-                                    unoptimized
                                 />
                             </div>
                         </div>

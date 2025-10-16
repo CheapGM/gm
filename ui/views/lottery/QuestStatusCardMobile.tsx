@@ -35,10 +35,10 @@ const questColors = {
 };
 
 const questBadges = {
-    bronze: "/gifsAndSounds/BronzeQuest.gif",
-    silver: "/gifsAndSounds/SilverQuest.gif",
-    gold: "/gifsAndSounds/GoldQuest.gif",
-    crystal: "/gifsAndSounds/CrystalQuest.gif",
+    bronze: "/gifsAndSounds/BronzeQuest.png",
+    silver: "/gifsAndSounds/SilverQuest.png",
+    gold: "/gifsAndSounds/GoldQuest.png",
+    crystal: "/gifsAndSounds/CrystalQuest.png",
 };
 
 const getChainIcon = (chainId: number): string => {
