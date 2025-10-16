@@ -711,7 +711,7 @@ export default function LotteryPage() {
                                 }}
                             >
                                 <Image
-                                    src="/gifsAndSounds/Spin%20Wheel.gif"
+                                    src="/gifsAndSounds/SpinWheel.gif"
                                     alt="GM Lottery Wheel Spinning"
                                     fill
                                     className="object-contain"
@@ -904,7 +904,7 @@ export default function LotteryPage() {
                                                 }}
                                             >
                                                 <Image
-                                                    src="/gifsAndSounds/Spin%20Wheel.gif"
+                                                    src="/gifsAndSounds/SpinWheel.gif"
                                                     alt="GM Lottery Wheel Spinning"
                                                     fill
                                                     className="object-contain"

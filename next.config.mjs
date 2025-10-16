@@ -29,8 +29,7 @@ const nextConfig = {
       },
     ],
     // Disable optimization for GIFs to preserve animation
-    unoptimized: false,
-    formats: ['image/avif', 'image/webp'],
+    unoptimized: true,
   },
   // Performance optimizations
   webpack: (config, { isServer }) => {
