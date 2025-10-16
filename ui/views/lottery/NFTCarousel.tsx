@@ -17,12 +17,12 @@ interface Winner {
 // Map questType to badge image (GIF animations)
 const getQuestBadge = (questType: string): string => {
   const badges: Record<string, string> = {
-    BRONZE: '/gifsAndSounds/Bronze%20Quest.gif',
-    SILVER: '/gifsAndSounds/Silver%20Quest.gif',
-    GOLD: '/gifsAndSounds/Gold%20Quest.gif',
-    CRYSTAL: '/gifsAndSounds/Crystal%20Quest.gif',
+    BRONZE: '/gifsAndSounds/BronzeQuest.gif',
+    SILVER: '/gifsAndSounds/SilverQuest.gif',
+    GOLD: '/gifsAndSounds/GoldQuest.gif',
+    CRYSTAL: '/gifsAndSounds/CrystalQuest.gif',
   };
-  return badges[questType.toUpperCase()] || '/gifsAndSounds/Bronze%20Quest.gif';
+  return badges[questType.toUpperCase()] || '/gifsAndSounds/BronzeQuest.gif';
 };
 
 async function fetchLatestWinners() {

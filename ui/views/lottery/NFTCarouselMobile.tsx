@@ -20,10 +20,10 @@ interface Winner {
 }
 
 const questBadges = {
-    bronze: "/gifsAndSounds/Bronze Quest.gif",
-    silver: "/gifsAndSounds/Silver Quest.gif",
-    gold: "/gifsAndSounds/Gold Quest.gif",
-    crystal: "/gifsAndSounds/Crystal Quest.gif",
+    bronze: "/gifsAndSounds/BronzeQuest.gif",
+    silver: "/gifsAndSounds/SilverQuest.gif",
+    gold: "/gifsAndSounds/GoldQuest.gif",
+    crystal: "/gifsAndSounds/CrystalQuest.gif",
 };
 
 async function fetchWinners() {
@@ -182,6 +182,7 @@ export function NFTCarouselMobile() {
                                                 width={24}
                                                 height={24}
                                                 className="object-cover"
+                                                unoptimized
                                             />
                                         </div>
                                         {/* Info */}
@@ -246,6 +247,7 @@ export function NFTCarouselMobile() {
                                                 width={24}
                                                 height={24}
                                                 className="object-cover"
+                                                unoptimized
                                             />
                                         </div>
                                         {/* Info */}
