@@ -35,10 +35,10 @@ const questColors = {
 };
 
 const questBadges = {
-    bronze: "/gifsAndSounds/Bronze%20Quest.gif",
-    silver: "/gifsAndSounds/Silver%20Quest.gif",
-    gold: "/gifsAndSounds/Gold%20Quest.gif",
-    crystal: "/gifsAndSounds/Crystal%20Quest.gif",
+    bronze: "/gifsAndSounds/Bronze Quest.gif",
+    silver: "/gifsAndSounds/Silver Quest.gif",
+    gold: "/gifsAndSounds/Gold Quest.gif",
+    crystal: "/gifsAndSounds/Crystal Quest.gif",
 };
 
 const getChainIcon = (chainId: number): string => {
@@ -156,6 +156,7 @@ export function QuestStatusCardMobile({
                         width={34}
                         height={34}
                         className="object-cover"
+                        unoptimized
                     />
                 </div>
 
@@ -224,7 +225,7 @@ export function QuestStatusCardMobile({
                             </span>
                         </div>
                         <div className="w-[17px] h-[17px] rounded-full overflow-hidden">
-                            <img src={chainIcon} alt="" className="w-full h-full object-cover" />
+                            <Image src={chainIcon} alt="" width={17} height={17} className="w-full h-full object-cover" />
                         </div>
                     </div>
                 </div>
@@ -320,9 +321,11 @@ export function QuestStatusCardMobile({
                 {/* Time Left */}
                 <div className="bg-[rgba(241,241,241,0.6)] rounded-lg px-1 py-1 flex flex-row justify-between items-center gap-[6px] w-[119px] h-[32px]">
                     <div className="flex items-center justify-center gap-1 w-[111px]">
-                        <img
+                        <Image
                             src="/quest-icons/timer-icon.svg"
                             alt=""
+                            width={12}
+                            height={12}
                             className="w-[12.33px] h-[12.33px]"
                         />
                         <span className="text-[10px] leading-[1.5em] text-[rgba(3,3,3,0.6)]">
@@ -338,7 +341,7 @@ export function QuestStatusCardMobile({
                     <span className="text-[10px] leading-[1.5em] text-[#888888]">
                         Round ID: {roundId}
                     </span>
-                    <img src="/quest-icons/info-icon.svg" alt="" className="w-3 h-3" />
+                    <Image src="/quest-icons/info-icon.svg" alt="" width={12} height={12} className="w-3 h-3" />
                 </div>
                 <a
                     href={`https://basescan.org/address/${contractAddress}`}

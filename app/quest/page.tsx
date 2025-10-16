@@ -916,10 +916,10 @@ export default function LotteryPage() {
                                         {/* My Quests Button */}
                                         <button
                                             onClick={() => {
-                                                // Scroll to winners section
+                                                // Scroll to winners section (desktop)
                                                 const winnersSection =
                                                     document.getElementById(
-                                                        "winners-section"
+                                                        "winners-section-desktop"
                                                     );
                                                 if (winnersSection) {
                                                     winnersSection.scrollIntoView(
@@ -929,17 +929,16 @@ export default function LotteryPage() {
                                                         }
                                                     );
                                                 }
-                                                // Trigger My Quests filter
-                                                const myQuestsButton =
-                                                    document.querySelector(
-                                                        "[data-my-quests-button]"
-                                                    ) as HTMLButtonElement;
-                                                if (
-                                                    myQuestsButton &&
-                                                    !myQuestsButton.disabled
-                                                ) {
-                                                    myQuestsButton.click();
-                                                }
+                                                // Wait for scroll to complete, then trigger My Quests filter
+                                                setTimeout(() => {
+                                                    const myQuestsButton =
+                                                        document.querySelector(
+                                                            "[data-my-quests-button]"
+                                                        ) as HTMLButtonElement;
+                                                    if (myQuestsButton) {
+                                                        myQuestsButton.click();
+                                                    }
+                                                }, 500);
                                             }}
                                             className="w-[118px] tablet:w-full bg-[#0177E7] text-white rounded-xl px-2 py-[0.5rem] font-base text-base hover:bg-[#0165CC] transition-colors absolute tablet:relative bottom-0 right-0 tablet:bottom-auto tablet:right-auto font-poppins"
                                         >
@@ -1305,14 +1304,14 @@ export default function LotteryPage() {
                     </div>
 
                     {/* Winners Section - Mobile */}
-                    <div id="winners-section" className="hidden tablet:block">
+                    <div id="winners-section-mobile" className="hidden tablet:block">
                         <Suspense fallback={<div>Loading winners...</div>}>
                             <WinnersFeed />
                         </Suspense>
                     </div>
 
                     {/* Winners Section - Desktop Only */}
-                    <div className="tablet:hidden w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6">
+                    <div id="winners-section-desktop" className="tablet:hidden w-full bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6">
                         <Suspense fallback={<div>Loading winners...</div>}>
                             <WinnersFeed />
                         </Suspense>

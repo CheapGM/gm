@@ -46,9 +46,8 @@ function BadgeImage({
                 fill
                 sizes="(max-width: 768px) 120px, 182px"
                 priority={priority}
-                placeholder="blur"
-                blurDataURL="/img/placeholders/blur-8px.png"
                 className="object-contain"
+                unoptimized
             />
         </div>
     );
@@ -70,10 +69,10 @@ const questColors = {
 };
 
 const questBadges = {
-    bronze: "/gifsAndSounds/Bronze%20Quest.gif",
-    silver: "/gifsAndSounds/Silver%20Quest.gif",
-    gold: "/gifsAndSounds/Gold%20Quest.gif",
-    crystal: "/gifsAndSounds/Crystal%20Quest.gif",
+    bronze: "/gifsAndSounds/Bronze Quest.gif",
+    silver: "/gifsAndSounds/Silver Quest.gif",
+    gold: "/gifsAndSounds/Gold Quest.gif",
+    crystal: "/gifsAndSounds/Crystal Quest.gif",
 };
 
 // Map chainId to chain icon
@@ -253,9 +252,11 @@ export function QuestStatusCard({
                                 </span>
                             </div>
                             <div className="w-[22px] h-[22px] tablet:w-[18px] tablet:h-[18px] rounded-full overflow-hidden">
-                                <img
+                                <Image
                                     src={chainIcon}
                                     alt=""
+                                    width={22}
+                                    height={22}
                                     className="w-full h-full object-cover"
                                 />
                             </div>
@@ -265,9 +266,11 @@ export function QuestStatusCard({
                     {/* Time Badge */}
                     <div className="bg-[#F1F1F1] border border-[#E6E6E6] rounded-xl tablet:rounded-lg px-3 tablet:px-2 py-[7px] tablet:py-1.5 flex flex-row justify-between items-center gap-[18px] tablet:gap-2 w-full">
                         <div className="flex items-center gap-2.5 tablet:gap-1.5">
-                            <img
+                            <Image
                                 src="/quest-icons/timer-icon.svg"
                                 alt=""
+                                width={16}
+                                height={16}
                                 className="w-4 h-4 tablet:w-3 tablet:h-3"
                             />
                             <span className="text-sm tablet:text-xs text-[rgba(3,3,3,0.6)]">
@@ -368,9 +371,11 @@ export function QuestStatusCard({
                         <span className="text-base tablet:text-sm leading-[1.5em] text-[rgba(3,3,3,0.6)]">
                             Round ID: {roundId}
                         </span>
-                        <img
+                        <Image
                             src="/quest-icons/info-icon.svg"
                             alt=""
+                            width={16}
+                            height={16}
                             className="w-4 h-4 tablet:w-3 tablet:h-3"
                         />
                     </div>

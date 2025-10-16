@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface QuestTimerProps {
   startedAt?: number; // Unix timestamp
@@ -74,7 +75,7 @@ export function QuestTimer({ startedAt, intervalSec = 600, onTimerEnd }: QuestTi
         <div className="flex flex-row items-center gap-[18px] tablet:gap-2 px-3 tablet:px-2 py-[7px] tablet:py-1.5 rounded-xl tablet:rounded-lg bg-[rgba(169,213,255,0.19)] border-2 border-[#05ABFF]">
           {/* Time range */}
           <div className="flex items-center gap-2.5 tablet:gap-1.5 whitespace-nowrap">
-            <img src="/quest-icons/timer-icon.svg" alt="" className="w-4 h-4 tablet:w-3 tablet:h-3" />
+            <Image src="/quest-icons/timer-icon.svg" alt="" width={16} height={16} className="w-4 h-4 tablet:w-3 tablet:h-3" />
             <span className="text-sm tablet:text-xs leading-[1.5em] text-[rgba(3,3,3,0.6)] font-poppins">
               {timeRange.start}-{timeRange.end} CET
             </span>

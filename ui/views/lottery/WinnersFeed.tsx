@@ -76,7 +76,6 @@ const getChainName = (chainId: number): string => {
     return chains[chainId] || `Chain ${chainId}`;
 };
 
-// Get chain icon
 const getChainIcon = (chainId: number): string => {
     const icons: Record<number, string> = {
         8453: "/images/chains/base.png",
@@ -171,7 +170,6 @@ export function WinnersFeed() {
                   return questType === filterQuestType;
               });
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = () => setIsQuestDropdownOpen(false);
         if (isQuestDropdownOpen) {
@@ -330,10 +328,10 @@ export function WinnersFeed() {
                         <button
                             onClick={() => setSelectedUserFilter("All Users")}
                             className={`
-                px-[10px] py-[10px] h-[30px] flex items-center justify-center rounded-xl text-xs font-normal transition-all
+                px-[10px] py-[10px] h-[30px] flex items-center justify-center rounded-xl text-xs font-medium transition-all border border-transparent
                 ${
                     selectedUserFilter === "All Users"
-                        ? "text-[rgba(3,3,3,0.6)]"
+                        ? "bg-[#0177E7] text-[#E8E8E8]"
                         : "text-[#888888]"
                 }
               `}
@@ -346,18 +344,16 @@ export function WinnersFeed() {
                                 setSelectedUserFilter("My Quests");
                             }}
                             className={`
-                px-[10px] py-[10px] h-[30px] flex items-center justify-center rounded-xl text-xs font-medium transition-all
+                px-[10px] py-[10px] h-[30px] flex items-center justify-center rounded-xl text-xs font-medium transition-all border border-transparent
                 ${
                     selectedUserFilter === "My Quests"
-                        ? "bg-[#0177E7] text-[#E8E8E8] border border-transparent"
+                        ? "bg-[#0177E7] text-[#E8E8E8]"
                         : "text-[#888888]"
                 }
               `}
                             style={
                                 selectedUserFilter === "My Quests"
                                     ? {
-                                          borderImage:
-                                              "linear-gradient(90deg, rgba(197, 167, 11, 1) 0%, rgba(173, 242, 92, 1) 100%)",
                                           borderImageSlice: 1,
                                       }
                                     : undefined
@@ -525,9 +521,11 @@ export function WinnersFeed() {
                                     </div>
 
                                     {winner.settlementTxHash && winner.chainId && (
-                                        <img
+                                        <Image
                                                 src="/img/arrow.svg"
                                                 alt="arrow"
+                                                width={18}
+                                                height={18}
                                                 className="w-[18px] h-[18px]"
                                             />
                                         

@@ -3,6 +3,17 @@
 import Image from 'next/image';
 
 export function HeroSection() {
+    const scrollToSpinButton = () => {
+        // Find the spin button element and scroll to it
+        const spinButton = document.querySelector('[data-spin-button]');
+        if (spinButton) {
+            spinButton.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+    };
+
     return (
         <div className="hidden tablet:block w-full rounded-2xl overflow-hidden relative min-h-[281px]">
             {/* Background image */}
@@ -37,7 +48,10 @@ export function HeroSection() {
                         <span className="text-[rgba(241,241,241,0.8)] text-[14px] leading-[1.5em] flex-shrink-0">
                             No backend. Fully on-chain.
                         </span>
-                        <button className="bg-[#0177E7] text-white w-[94px] h-[35px] rounded-full text-[14px] font-medium leading-[1.5em] hover:bg-[#0165CC] transition-colors flex items-center justify-center flex-shrink-0">
+                        <button 
+                            onClick={scrollToSpinButton}
+                            className="bg-[#0177E7] text-white w-[94px] h-[35px] rounded-full text-[14px] font-medium leading-[1.5em] hover:bg-[#0165CC] transition-colors flex items-center justify-center flex-shrink-0"
+                        >
                             Play now
                         </button>
                     </div>

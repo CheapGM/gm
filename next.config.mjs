@@ -28,6 +28,9 @@ const nextConfig = {
         port: "",
       },
     ],
+    // Disable optimization for GIFs to preserve animation
+    unoptimized: false,
+    formats: ['image/avif', 'image/webp'],
   },
   // Performance optimizations
   webpack: (config, { isServer }) => {

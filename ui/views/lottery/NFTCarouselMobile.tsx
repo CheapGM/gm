@@ -20,10 +20,10 @@ interface Winner {
 }
 
 const questBadges = {
-    bronze: "/gifsAndSounds/Bronze%20Quest.gif",
-    silver: "/gifsAndSounds/Silver%20Quest.gif",
-    gold: "/gifsAndSounds/Gold%20Quest.gif",
-    crystal: "/gifsAndSounds/Crystal%20Quest.gif",
+    bronze: "/gifsAndSounds/Bronze Quest.gif",
+    silver: "/gifsAndSounds/Silver Quest.gif",
+    gold: "/gifsAndSounds/Gold Quest.gif",
+    crystal: "/gifsAndSounds/Crystal Quest.gif",
 };
 
 async function fetchWinners() {
@@ -92,7 +92,7 @@ export function NFTCarouselMobile() {
                     `}
                 >
                     {selectedUserFilter === "Life Winners" && (
-                        <img src="/quest-icons/timer-icon.svg" alt="" className="w-4 h-4" />
+                        <Image src="/quest-icons/timer-icon.svg" alt="" width={16} height={16} className="w-4 h-4" />
                     )}
                     <span
                         className={`text-xs leading-[1.5em] ${
@@ -106,8 +106,8 @@ export function NFTCarouselMobile() {
                 </button>
                 <button
                     onClick={() => {
-                        // Scroll to winners section
-                        const winnersSection = document.getElementById("winners-section");
+                        // Scroll to winners section (mobile)
+                        const winnersSection = document.getElementById("winners-section-mobile");
                         if (winnersSection) {
                             winnersSection.scrollIntoView({
                                 behavior: "smooth",

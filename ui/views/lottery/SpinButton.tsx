@@ -33,6 +33,7 @@ export function SpinButton({
     <button
       onClick={handleClick}
       disabled={disabled}
+      data-spin-button
       className="relative w-[251px] h-[160px] tablet:w-[140px] tablet:h-[90px] group transition-all duration-150 hover:translate-y-1 active:translate-y-2 disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {/* Button Background Image */}
