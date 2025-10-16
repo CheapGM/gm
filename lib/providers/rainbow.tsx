@@ -1,7 +1,6 @@
 "use client";
 import React, { FC, PropsWithChildren } from "react";
 import {
-  darkTheme,
   RainbowKitProvider,
   createAuthenticationAdapter,
   RainbowKitAuthenticationProvider,
