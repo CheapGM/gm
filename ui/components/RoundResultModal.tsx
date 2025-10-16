@@ -132,7 +132,7 @@ export function RoundResultModal({
                                     paintOrder: "stroke fill",
                                 }}
                             >
-                                chance to win 20%
+                                chance to win {((1 / totalParticipants) * 100).toFixed(2)}%
                             </div>
                         </div>
                     )}

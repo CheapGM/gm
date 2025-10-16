@@ -150,13 +150,12 @@ export function QuestStatusCardMobile({
             <div className="flex flex-row justify-between items-start gap-[142px]">
                 {/* Small GIF on left */}
                 <div className="w-[34px] h-[34px] rounded-[10px] overflow-hidden flex-shrink-0">
-                    <Image
+                    <img
                         src={questBadge}
                         alt="Quest badge"
                         width={34}
                         height={34}
                         className="object-cover"
-                        unoptimized
                     />
                 </div>
 
