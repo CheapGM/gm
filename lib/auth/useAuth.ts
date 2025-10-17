@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useEffect, useState } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { useSession } from "next-auth/react";
 import { AuthenticationStatus } from "@rainbow-me/rainbowkit";
@@ -8,17 +8,19 @@ const useAuth = () => {
   const { address, isConnected } = useAccount();
   const { data: session, status: sessionStatus } = useSession();
 
-  // Track initial load state to give session time to hydrate on first render
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  // Track if we've ever completed initial load (persists across remounts)
+  const hasCompletedInitialLoad = useRef(false);
   const initialLoadTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Give 800ms for initial session hydration on slow mobile networks
-    // After this, we'll show the modal if still unauthenticated
-    if (isInitialLoad && sessionStatus !== "loading") {
+    // If we've already completed initial load, don't do it again
+    if (hasCompletedInitialLoad.current) return;
+
+    // Give 600ms for initial session hydration on slow mobile networks
+    if (sessionStatus !== "loading") {
       initialLoadTimer.current = setTimeout(() => {
-        setIsInitialLoad(false);
-      }, 800);
+        hasCompletedInitialLoad.current = true;
+      }, 600);
     }
 
     return () => {
@@ -26,12 +28,12 @@ const useAuth = () => {
         clearTimeout(initialLoadTimer.current);
       }
     };
-  }, [isInitialLoad, sessionStatus]);
+  }, [sessionStatus]);
 
-  // Reset initial load state when session is found
+  // Immediately mark as loaded when session is found
   useEffect(() => {
     if (session?.user?.address) {
-      setIsInitialLoad(false);
+      hasCompletedInitialLoad.current = true;
       if (initialLoadTimer.current) {
         clearTimeout(initialLoadTimer.current);
       }
@@ -60,9 +62,9 @@ const useAuth = () => {
     // If not connected, no need to sign
     if (!isConnected || !address) return false;
 
-    // During initial load (first 800ms), don't show modal yet
+    // During initial load (first 600ms), don't show modal yet
     // This prevents premature modal on mobile where session loads slowly
-    if (isInitialLoad) return false;
+    if (!hasCompletedInitialLoad.current) return false;
 
     // If we have a session but addresses don't match, need to re-sign
     if (session?.user?.address && session.user.address !== address) {
@@ -75,7 +77,7 @@ const useAuth = () => {
     }
 
     return false;
-  }, [isLoading, isConnected, address, session?.user?.address, isInitialLoad]);
+  }, [isLoading, isConnected, address, session?.user?.address]);
 
   return {
     isLoading,
