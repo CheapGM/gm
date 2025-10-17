@@ -4,6 +4,8 @@ import { useAccount, useSignMessage } from "wagmi";
 import { toast } from "sonner";
 import { getNonce } from "./nonce";
 
+const LAST_SIGN_KEY = "gm_last_sign_time";
+
 const useSign = () => {
   const { address, chainId } = useAccount();
   const { signMessageAsync } = useSignMessage();
@@ -37,11 +39,18 @@ const useSign = () => {
       });
 
       if (result?.ok) {
+        // Save timestamp of successful sign to localStorage
+        // This prevents modal from showing again right after signing
+        if (typeof window !== "undefined") {
+          localStorage.setItem(LAST_SIGN_KEY, Date.now().toString());
+        }
+
         toast.success("Successfully signed in!");
+
         // Give time for session to update
-        // Mobile devices need more time due to slower networks and cookie sync
+        // Mobile devices need MORE time due to slower networks and cookie sync
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        const delay = isMobile ? 1500 : 500;
+        const delay = isMobile ? 3000 : 1000; // Increased from 1500ms to 3000ms for mobile
         await new Promise(resolve => setTimeout(resolve, delay));
       } else {
         throw new Error(result?.error || "Failed to sign in");
