@@ -46,9 +46,13 @@ export const useGM = (successCallback?: () => void) => {
     callWriteContractGM,
   } = useWriteContractGM();
 
+  // Get current connected chain
+  const { chainId: connectedChainId } = useAccount();
+  
+  // Only fetch balance if we're on the correct chain
   const { data: balanceData } = useBalance({
     address,
-    chainId, // Fetch balance for the specific chain
+    chainId: connectedChainId === chainId ? chainId : undefined,
   });
 
   // Check cooldown status
@@ -159,9 +163,11 @@ export const useGM = (successCallback?: () => void) => {
   );
 
   const isEnoughBalance = useMemo(() => {
+    // If not on the correct chain, assume balance is sufficient (will check after switch)
+    if (connectedChainId !== chainId) return true;
     if (!balanceData || !fee) return false;
     return balanceData.value >= fee;
-  }, [balanceData, fee]);
+  }, [balanceData, fee, connectedChainId, chainId]);
 
   const canSendGM = useMemo(() => {
     return (

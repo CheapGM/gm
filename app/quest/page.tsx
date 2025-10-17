@@ -164,6 +164,20 @@ export default function LotteryPage() {
         }
     }, [isJoinSuccess]);
 
+    // Safety timeout: if joining/confirming takes too long, force refetch
+    useEffect(() => {
+        if (isJoining || isJoiningConfirming) {
+            const timeout = setTimeout(() => {
+                // Force refetch after 30 seconds if still in loading state
+                refetch();
+                refetchJoined();
+                toast.dismiss("join");
+            }, 30000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [isJoining, isJoiningConfirming, refetch, refetchJoined]);
+
     useEffect(() => {
         if (joinError) {
             // Parse error message for better user feedback
@@ -203,14 +217,27 @@ export default function LotteryPage() {
     // Refetch data after successful join and show confirmation modal
     useEffect(() => {
         if (isJoinSuccess && address) {
+            // Immediate refetch
             refetch();
             refetchJoined();
             refetchBalance();
 
+            // Additional refetches for mobile reliability
+            const refetchInterval = setInterval(() => {
+                refetch();
+                refetchJoined();
+            }, 1000);
+
             // Get player position after successful join
             // Wait a bit for the blockchain state to update
             setTimeout(async () => {
+                clearInterval(refetchInterval);
+                
                 try {
+                    // Force one more refetch before checking
+                    await refetch();
+                    await refetchJoined();
+                    
                     // Use the players data we already have
                     const currentPlayers = players;
                     const userPosition = currentPlayers.findIndex(
@@ -234,7 +261,10 @@ export default function LotteryPage() {
                 } catch (error) {
                     console.error("Error fetching player position:", error);
                 }
-            }, 2000); // Wait 2 seconds for blockchain update
+            }, 3000); // Wait 3 seconds for blockchain update
+
+            // Cleanup interval on unmount
+            return () => clearInterval(refetchInterval);
         }
     }, [
         isJoinSuccess,
