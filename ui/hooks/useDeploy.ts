@@ -180,8 +180,10 @@ export const useDeploy = (successCallback?: () => void) => {
   }, [isProcessing, isEnoughBalance, cooldownInfo.canSend, isDeploySupported]);
 
   const onDeploy = useCallback(async () => {
+    // Check authorization first - if not authorized, the button should show "Sign Message"
+    // and this function shouldn't be called
     if (!isAuthorized) {
-      toast.error("Please connect and authorize your wallet first");
+      console.warn("onDeploy called without authorization");
       return;
     }
 

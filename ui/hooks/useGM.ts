@@ -176,8 +176,10 @@ export const useGM = (successCallback?: () => void) => {
   }, [isProcessing, isEnoughBalance, cooldownInfo.canSend, isGMSupported]);
 
   const onSayGM = useCallback(async () => {
+    // Check authorization first - if not authorized, the button should show "Sign Message"
+    // and this function shouldn't be called
     if (!isAuthorized) {
-      toast.error("Please connect and authorize your wallet first");
+      console.warn("onSayGM called without authorization");
       return;
     }
 

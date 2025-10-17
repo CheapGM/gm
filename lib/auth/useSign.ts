@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useAccount, useSignMessage } from "wagmi";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { getNonce } from "./nonce";
 
 const useSign = () => {

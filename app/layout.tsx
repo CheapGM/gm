@@ -23,6 +23,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-cards";
 import Script from "next/script";
 import { Toaster } from 'sonner';
+import UnAuthWallet from "@/ui/widget/unauth-wallet";
 
 export const metadata: Metadata = getMetaDataByName("home");
 
@@ -110,6 +111,7 @@ export default function RootLayout({
       <body className="w-full h-full overflow-x-hidden">
         <div className="absolute -z-10 inset-0 bg-body" />
         <Providers>
+          <UnAuthWallet />
           <Header />
           <div className="flex flex-col min-h-screen">
             <div className="flex-1">{children}</div>

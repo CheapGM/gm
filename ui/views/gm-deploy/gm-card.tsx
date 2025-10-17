@@ -97,15 +97,22 @@ const GMCard: React.FC<GMCardProps> = ({
   } = useGM(refreshGMData);
 
   const handleSayGM = useCallback(async () => {
+    // If not authorized, UnAuthWallet modal will handle it
+    if (!isAuthorized) {
+      return;
+    }
+
     if (!hasFetchedData) {
       fetchChainData();
     }
     await onSayGM();
-  }, [onSayGM, fetchChainData, hasFetchedData]);
+  }, [onSayGM, fetchChainData, hasFetchedData, isAuthorized]);
 
   // Check if this is the currently connected chain
   const { chainId: connectedChainId } = useAccount();
   const isCurrentChain = connectedChainId === chainId;
+
+
 
   // Function to calculate countdown timer
   const calculateCountdown = useCallback(() => {
@@ -160,6 +167,7 @@ const GMCard: React.FC<GMCardProps> = ({
     }
 
     // If this is the current chain
+    if (!isAuthorized) return "Sign Message";
     if (!isGMSupported) return "GM Not Available";
     if (isProcessing) return "Sending GM...";
     if (!cooldownInfo.canSend && countdown !== "00:00:00") {
@@ -174,6 +182,9 @@ const GMCard: React.FC<GMCardProps> = ({
 
     // If this is not the current chain, allow clicking to switch networks
     if (!isCurrentChain) return false;
+
+    // If on current chain but not authorized, allow clicking to trigger auth
+    if (isCurrentChain && !isAuthorized) return false;
 
     // If this is the current chain but GM not supported, disable the button
     if (isCurrentChain && !isGMSupported) return true;

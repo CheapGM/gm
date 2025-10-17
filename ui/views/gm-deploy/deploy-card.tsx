@@ -99,15 +99,22 @@ const DeployCard: React.FC<DeployCardProps> = ({
   } = useDeploy(refreshDeployData);
 
   const handleDeploy = useCallback(async () => {
+    // If not authorized, UnAuthWallet modal will handle it
+    if (!isAuthorized) {
+      return;
+    }
+
     if (!hasFetchedData) {
       fetchChainData();
     }
     await onDeploy();
-  }, [onDeploy, fetchChainData, hasFetchedData]);
+  }, [onDeploy, fetchChainData, hasFetchedData, isAuthorized]);
 
   // Check if this is the currently connected chain
   const { chainId: connectedChainId } = useAccount();
   const isCurrentChain = connectedChainId === chainId;
+
+
 
   // Function to calculate countdown timer
   const calculateCountdown = useCallback(() => {
@@ -164,6 +171,7 @@ const DeployCard: React.FC<DeployCardProps> = ({
     }
 
     // If this is the current chain
+    if (!isAuthorized) return "Sign Message";
     if (!isDeploySupported) return "Deploy Not Available";
     if (isProcessing) return "Deploying...";
     if (!cooldownInfo.canSend && countdown !== "00:00:00") {
@@ -178,6 +186,9 @@ const DeployCard: React.FC<DeployCardProps> = ({
 
     // If this is not the current chain, allow clicking to switch networks
     if (!isCurrentChain) return false;
+
+    // If on current chain but not authorized, allow clicking to trigger auth
+    if (isCurrentChain && !isAuthorized) return false;
 
     // If this is the current chain but Deploy not supported, disable the button
     if (isCurrentChain && !isDeploySupported) return true;
