@@ -39,7 +39,10 @@ const useSign = () => {
       if (result?.ok) {
         toast.success("Successfully signed in!");
         // Give time for session to update
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Mobile devices need more time due to slower networks and cookie sync
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const delay = isMobile ? 1500 : 500;
+        await new Promise(resolve => setTimeout(resolve, delay));
       } else {
         throw new Error(result?.error || "Failed to sign in");
       }
