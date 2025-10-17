@@ -339,16 +339,16 @@ export default function LotteryPage() {
             return;
         }
 
-        if (!isAuthorized) {
-            toast.error("Please sign the message to continue", {
-                id: "not-authorized",
+        if (!isOnCorrectNetwork) {
+            toast.error("Please switch to Base network", {
+                id: "wrong-network",
             });
             return;
         }
 
-        if (!isOnCorrectNetwork) {
-            toast.error("Please switch to Base network", {
-                id: "wrong-network",
+        if (!isAuthorized) {
+            toast.error("Please sign the message to continue", {
+                id: "not-authorized",
             });
             return;
         }
@@ -425,11 +425,10 @@ export default function LotteryPage() {
         isJoiningConfirming;
     const hasInsufficientBalance = usdtBalance < entryFee;
     const isButtonDisabled = Boolean(
-        (isConnected && !isAuthorized) ||
-            (isConnected && !isOnCorrectNetwork) ||
-            (isConnected && hasJoined) ||
-            (isConnected && isLoading) ||
-            (isConnected && hasInsufficientBalance)
+        (isConnected && isOnCorrectNetwork && !isAuthorized) ||
+            (isConnected && isOnCorrectNetwork && hasJoined) ||
+            (isConnected && isOnCorrectNetwork && isLoading) ||
+            (isConnected && isOnCorrectNetwork && hasInsufficientBalance)
     );
 
     // Get quest info based on selected quest
@@ -480,9 +479,9 @@ export default function LotteryPage() {
     // Determine button text based on state
     const getButtonText = () => {
         if (!isConnected) return "Connect";
-        if (!isAuthorized) return "Sign Message";
         if (!isOnCorrectNetwork) return "Switch Network";
         if (hasJoined) return "Joined";
+        if (!isAuthorized) return "Sign Message";
         if (hasInsufficientBalance) return "Insufficient Balance";
         if (isJoining || isJoiningConfirming) return "Joining...";
         if (isApproving || isApprovingConfirming) return "Approving...";

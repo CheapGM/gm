@@ -47,6 +47,7 @@ export const useDeploy = (successCallback?: () => void) => {
 
   const { data: balanceData } = useBalance({
     address,
+    chainId, // Fetch balance for the specific chain
   });
 
   // Check cooldown status

@@ -162,10 +162,10 @@ const GMCard: React.FC<GMCardProps> = ({
     // If this is the current chain
     if (!isGMSupported) return "GM Not Available";
     if (isProcessing) return "Sending GM...";
-    if (!isEnoughBalance) return "Insufficient Balance";
     if (!cooldownInfo.canSend && countdown !== "00:00:00") {
       return `Wait ${countdown}`;
     }
+    if (!isEnoughBalance) return "Insufficient Balance";
     return `👋🏻 GM on ${chain.shortName}`;
   };
 

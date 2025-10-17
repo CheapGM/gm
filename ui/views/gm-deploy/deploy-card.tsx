@@ -166,10 +166,10 @@ const DeployCard: React.FC<DeployCardProps> = ({
     // If this is the current chain
     if (!isDeploySupported) return "Deploy Not Available";
     if (isProcessing) return "Deploying...";
-    if (!isEnoughBalance) return "Insufficient Balance";
     if (!cooldownInfo.canSend && countdown !== "00:00:00") {
       return `Wait ${countdown}`;
     }
+    if (!isEnoughBalance) return "Insufficient Balance";
     return `Deploy on ${chain.shortName}`;
   };
 
