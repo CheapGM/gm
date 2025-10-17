@@ -43,6 +43,7 @@ import { useRoundResults } from "@/lib/hooks/useRoundResults";
 import { RoundResultModal } from "@/ui/components/RoundResultModal";
 import { useChainId } from "wagmi";
 import useAuth from "@/lib/auth/useAuth";
+import useSign from "@/lib/auth/useSign";
 
 // Allowed chains for lottery
 const LOTTERY_ALLOWED_CHAINS = [
@@ -63,6 +64,7 @@ export default function LotteryPage() {
     const { openConnectModal } = useConnectModal();
     const chainId = useChainId();
     const { isAuthorized } = useAuth();
+    const { signUser, isPending: isSignPending } = useSign();
     const [selectedQuest, setSelectedQuest] = useState<QuestType>("bronze");
     const [isPollingAfterEnd, setIsPollingAfterEnd] = useState(false);
     const [isQuestDropdownOpen, setIsQuestDropdownOpen] = useState(false);
@@ -363,7 +365,7 @@ export default function LotteryPage() {
         }
     }, [isPollingAfterEnd, round?.startedAt]);
 
-    const handleQuestButtonClick = () => {
+    const handleQuestButtonClick = async () => {
         if (!isConnected || !address) {
             openConnectModal?.();
             return;
@@ -377,9 +379,8 @@ export default function LotteryPage() {
         }
 
         if (!isAuthorized) {
-            toast.error("Please sign the message to continue", {
-                id: "not-authorized",
-            });
+            // Trigger signing instead of just showing an error
+            await signUser();
             return;
         }
 
@@ -452,13 +453,13 @@ export default function LotteryPage() {
         isApproving ||
         isApprovingConfirming ||
         isJoining ||
-        isJoiningConfirming;
+        isJoiningConfirming ||
+        isSignPending;
     const hasInsufficientBalance = usdtBalance < entryFee;
     const isButtonDisabled = Boolean(
-        (isConnected && isOnCorrectNetwork && !isAuthorized) ||
-            (isConnected && isOnCorrectNetwork && hasJoined) ||
+        (isConnected && isOnCorrectNetwork && hasJoined) ||
             (isConnected && isOnCorrectNetwork && isLoading) ||
-            (isConnected && isOnCorrectNetwork && hasInsufficientBalance)
+            (isConnected && isOnCorrectNetwork && hasInsufficientBalance && isAuthorized)
     );
 
     // Get quest info based on selected quest
@@ -511,6 +512,7 @@ export default function LotteryPage() {
         if (!isConnected) return "Connect";
         if (!isOnCorrectNetwork) return "Switch Network";
         if (hasJoined) return "Joined";
+        if (isSignPending) return "Signing...";
         if (!isAuthorized) return "Sign Message";
         if (hasInsufficientBalance) return "Insufficient Balance";
         if (isJoining || isJoiningConfirming) return "Joining...";

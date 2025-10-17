@@ -15,6 +15,7 @@ import { GMDataResult } from "@/lib/web3/hooks/read/useSingleChainGMData";
 import BeamWrapper from "@/ui/widget/beam-wrapper";
 import SuccessModal from "@/ui/components/success-modal";
 import useAuth from "@/lib/auth/useAuth";
+import useSign from "@/lib/auth/useSign";
 
 interface GMCardProps {
   chainId: NETWORKS;
@@ -36,6 +37,7 @@ const GMCard: React.FC<GMCardProps> = ({
   const { isFavorite, onToggleFavorite } = useChainFavorite(chainId);
   const { isConnected } = useAccount();
   const { isAuthorized } = useAuth();
+  const { signUser, isPending: isSignPending } = useSign();
 
   // Track whether data has been fetched for this chain
   const [hasFetchedData, setHasFetchedData] = useState(false);
@@ -97,8 +99,9 @@ const GMCard: React.FC<GMCardProps> = ({
   } = useGM(refreshGMData);
 
   const handleSayGM = useCallback(async () => {
-    // If not authorized, UnAuthWallet modal will handle it
+    // If not authorized, trigger signing
     if (!isAuthorized) {
+      await signUser();
       return;
     }
 
@@ -106,7 +109,7 @@ const GMCard: React.FC<GMCardProps> = ({
       fetchChainData();
     }
     await onSayGM();
-  }, [onSayGM, fetchChainData, hasFetchedData, isAuthorized]);
+  }, [onSayGM, fetchChainData, hasFetchedData, isAuthorized, signUser]);
 
   // Check if this is the currently connected chain
   const { chainId: connectedChainId } = useAccount();
@@ -167,6 +170,7 @@ const GMCard: React.FC<GMCardProps> = ({
     }
 
     // If this is the current chain
+    if (isSignPending) return "Signing...";
     if (!isAuthorized) return "Sign Message";
     if (!isGMSupported) return "GM Not Available";
     if (isProcessing) return "Sending GM...";
@@ -182,6 +186,9 @@ const GMCard: React.FC<GMCardProps> = ({
 
     // If this is not the current chain, allow clicking to switch networks
     if (!isCurrentChain) return false;
+
+    // If signing, disable button
+    if (isSignPending) return true;
 
     // If on current chain but not authorized, allow clicking to trigger auth
     if (isCurrentChain && !isAuthorized) return false;
