@@ -9,6 +9,21 @@ import { getOrCreateUserIdByAddress } from "@/lib/api/user";
 import { verifyMessage } from "viem";
 
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",

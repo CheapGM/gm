@@ -29,12 +29,20 @@ const useSign = () => {
         message,
       });
 
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         message,
         signature,
         address,
         redirect: false,
       });
+
+      if (result?.ok) {
+        toast.success("Successfully signed in!");
+        // Give time for session to update
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } else {
+        throw new Error(result?.error || "Failed to sign in");
+      }
     } catch (error: any) {
       console.error("Signing error:", error);
       if (error?.message?.includes("User rejected the request")) {

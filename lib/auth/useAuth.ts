@@ -24,17 +24,17 @@ const useAuth = () => {
   );
 
   const isNeedToResign = useMemo(() => {
-    if (!isLoading && isConnected) {
-      if (
-        !session?.user?.address ||
-        (address && session?.user.address !== address)
-      ) {
-        return true;
-      }
-    } else {
-      return false;
+    // Don't show modal while loading
+    if (isLoading) return false;
+    
+    // Only show if connected but not authorized
+    if (isConnected && address) {
+      // Need to sign if no session or address mismatch
+      return !session?.user?.address || session.user.address !== address;
     }
-  }, [isLoading, isConnected, status, session, address]);
+    
+    return false;
+  }, [isLoading, isConnected, session, address]);
 
   return {
     isLoading,

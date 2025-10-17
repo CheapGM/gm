@@ -8,14 +8,17 @@ import InteractionButton from "../interaction-button";
 import { useClientRender } from "@/utils/hooks/useClientRender";
 
 const UnAuthWallet = () => {
-  const { isNeedToResign } = useAuth();
+  const { isNeedToResign, isLoading } = useAuth();
   const isClient = useClientRender();
   const { isPending, signUser } = useSign();
+
+  // Don't show modal while session is loading
+  const shouldShowModal = !!isNeedToResign && isClient && !isLoading;
 
   return (
     <div>
       <Modal
-        isOpen={!!isNeedToResign && isClient}
+        isOpen={shouldShowModal}
         handleClose={() => {}}
         hideCloseButton
         backdropClassName="bg-black/80"
