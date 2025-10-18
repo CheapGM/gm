@@ -70,8 +70,8 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
     );
   };
 
-  const onRedirectToMint = () => {
-    router.push("/search");
+  const onRedirectToQuest = () => {
+    router.push("/quest");
   };
 
   const handleSocialShare = (platform: string) => {
@@ -141,10 +141,10 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
             </div>
           </button>
           <button
-            onClick={onRedirectToMint}
+            onClick={onRedirectToQuest}
             className="w-full bg-primary text-white text-sm font-medium flex items-center justify-center gap-2 rounded-xl px-2.5 py-3"
           >
-            Mint real Domain & start Earning
+            Play Quest and win up to X10 from your investment
           </button>
         </div>
 
