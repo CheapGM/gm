@@ -65,11 +65,7 @@ const RainbowProvider: FC<PropsWithChildren> = ({ children }) => {
         adapter={authenticationAdapter}
         status={status}
       >
-        <RainbowKitProvider
-          modalSize="compact"
-        >
-          {children}
-        </RainbowKitProvider>
+        <RainbowKitProvider>{children}</RainbowKitProvider>
       </RainbowKitAuthenticationProvider>
     </>
   );
