@@ -696,6 +696,11 @@ export default function LotteryPage() {
                                 )}
                             </div>
                         </div>
+                                                <div>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <NFTCarouselMobile />
+                            </Suspense>
+                        </div>
 
                         {/* Platform Contribution & Probability */}
                         <div className="bg-[rgba(241,241,241,0.3)] border border-[rgba(230,230,230,0.52)] rounded-2xl px-5 py-3 flex flex-col gap-2.5">
@@ -840,12 +845,6 @@ export default function LotteryPage() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
-
-                        <div>
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <NFTCarouselMobile />
-                            </Suspense>
                         </div>
                     </div>
 
