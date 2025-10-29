@@ -6,6 +6,7 @@ import { formatUnits } from "viem";
 import { useAccount } from "wagmi";
 import Image from "next/image";
 import { WinnerDetailModal } from "./WinnerDetailModal";
+import { Pagination } from "@/ui/components/Pagination";
 
 interface Winner {
     id: number;
@@ -48,7 +49,7 @@ async function fetchWinners() {
     const apiUrl =
         process.env.NEXT_PUBLIC_API_URL ||
         "https://gm-lottery-api-production.up.railway.app";
-    const res = await fetch(`${apiUrl}/winners/latest?limit=10`);
+    const res = await fetch(`${apiUrl}/winners/latest?limit=100`);
     if (!res.ok) throw new Error("Failed to fetch winners");
     return res.json();
 }
@@ -113,6 +114,8 @@ export function WinnersFeed() {
     const [isQuestDropdownOpen, setIsQuestDropdownOpen] = useState(false);
     const [selectedWinner, setSelectedWinner] = useState<Winner | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     const handleWinnerClick = (winner: Winner) => {
         setSelectedWinner(winner);
@@ -157,7 +160,7 @@ export function WinnersFeed() {
               });
 
     // Apply quest filter
-    const winners =
+    const allFilteredWinners =
         selectedQuestFilter === "All Quests"
             ? filteredByChain
             : filteredByChain.filter((winner) => {
@@ -169,6 +172,17 @@ export function WinnersFeed() {
                       .toUpperCase();
                   return questType === filterQuestType;
               });
+
+    // Calculate pagination
+    const totalPages = Math.ceil(allFilteredWinners.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const winners = allFilteredWinners.slice(startIndex, endIndex);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedChainFilter, selectedQuestFilter, selectedUserFilter]);
 
     useEffect(() => {
         const handleClickOutside = () => setIsQuestDropdownOpen(false);
@@ -626,6 +640,15 @@ export function WinnersFeed() {
                     </div>
                 )}
             </div>
+
+            {/* Pagination */}
+            {!isLoading && winners.length > 0 && totalPages > 1 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
+            )}
 
             {/* Winner Detail Modal */}
             <WinnerDetailModal
