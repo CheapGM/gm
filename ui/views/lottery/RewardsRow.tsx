@@ -5,28 +5,28 @@ import { RewardCard } from "./RewardCard";
 const rewardsData = [
     {
         position: "1st Position",
-        reward: "50% from the quest",
+        reward: "60% from the quest",
         questsCount: 4,
         positionColor: "#12694A",
         icon: "/images/chains/base.png",
     },
     {
         position: "2nd Position",
-        reward: "20% from the quest",
+        reward: "25% from the quest",
         questsCount: 4,
         positionColor: "#0A4E58",
         icon: "/images/chains/base.png",
     },
     {
         position: "3rd Position",
-        reward: "15% from the quest",
+        reward: "10% from the quest",
         questsCount: 4,
         positionColor: "#192973",
         icon: "/images/chains/base.png",
     },
     {
         position: "4th Positions",
-        reward: "10% from the quest",
+        reward: "5% from the quest",
         questsCount: 4,
         positionColor: "#480E5D",
         icon: "/images/chains/base.png",

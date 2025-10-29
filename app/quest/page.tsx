@@ -820,10 +820,10 @@ export default function LotteryPage() {
                             </div>
                             <div className="grid grid-cols-4 gap-2.5">
                                 {[
-                                    { place: "1st", percentage: "50%" },
-                                    { place: "2nd", percentage: "20%" },
-                                    { place: "3rd", percentage: "15%" },
-                                    { place: "4th", percentage: "10%" },
+                                    { place: "1st", percentage: "60%" },
+                                    { place: "2nd", percentage: "25%" },
+                                    { place: "3rd", percentage: "10%" },
+                                    { place: "4th", percentage: "5%" },
                                 ].map((reward) => (
                                     <div
                                         key={reward.place}
@@ -849,11 +849,17 @@ export default function LotteryPage() {
                         </div>
                     </div>
 
-                    <div className="tablet:hidden bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6 w-full flex flex-col gap-[88px]">
-                        {/* Rewards Row - Top */}
-                        <RewardsRow />
+                    <div className="tablet:hidden bg-white border border-[rgba(230,230,230,0.5)] rounded-[20px] p-6 w-full flex flex-col gap-[50px]">
+                        {/* NFT Carousel - Top */}
+                        <div className="w-full relative -mt-2">
+                            {/* Prize Pool Info - Positioned above carousel */}
+                            <div className="absolute -top-[70px] left-0">
+                                <PrizePoolInfo />
+                            </div>
+                            <NFTCarousel />
+                        </div>
 
-                        {/* Main Content - Bottom */}
+                        {/* Main Content - Middle */}
                         <div className="flex flex-row justify-between gap-[46px]">
                             {/* Left Column */}
                             <div className="flex flex-col items-center gap-[21px] tablet:gap-4 w-[818px] tablet:w-full h-[614px] tablet:h-auto">
@@ -1198,14 +1204,8 @@ export default function LotteryPage() {
                                 </div>
                             </div>
                         </div>
-                        {/* NFT Carousel */}
-                        <div className="w-full relative -mt-8">
-                            {/* Prize Pool Info - Positioned above carousel */}
-                            <div className="absolute -top-[70px] left-0">
-                                <PrizePoolInfo />
-                            </div>
-                            <NFTCarousel />
-                        </div>
+                        {/* Rewards Row - Bottom */}
+                        <RewardsRow />
                     </div>
 
                     {/* Disclaimer - Desktop only */}

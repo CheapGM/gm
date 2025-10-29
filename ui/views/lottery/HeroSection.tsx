@@ -37,7 +37,7 @@ export function HeroSection() {
                             • 95% of pool → winners<br />
                             • 5% → XP & ecosystem rewards<br />
                             <br />
-                            • 🥇 50%  🥈 20% 🥉 15% 🏅 10%<br />
+                            • 🥇 60%  🥈 25% 🥉 10% 🏅 5%<br />
                             • Randomness: Chainlink VRF
                         </p>
                     </div>
