@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { usePathname, useSearchParams } from "next/navigation";
 import { MdCancel } from "react-icons/md";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -10,6 +10,7 @@ import Image from "@/ui/components/image";
 import Container from "@/ui/components/container";
 import { HEADER_MENU_LIST } from "@/utils/constant";
 import { cn } from "@/utils";
+import { LogoutIcon } from "@/ui/components/icon/LogoutIcon";
 
 type MenuProps = { showMenu: boolean; setShowMenu: (value: boolean) => void };
 const MobileMenu: React.FC<MenuProps> = ({ showMenu, setShowMenu }) => {
@@ -17,6 +18,7 @@ const MobileMenu: React.FC<MenuProps> = ({ showMenu, setShowMenu }) => {
   const searchParams = useSearchParams();
   const { address } = useAccount();
   const { openConnectModal } = useConnectModal();
+  const { disconnect } = useDisconnect();
   const handleClose = () => setShowMenu(!showMenu);
 
   const connectWallet = () => {
@@ -95,6 +97,23 @@ const MobileMenu: React.FC<MenuProps> = ({ showMenu, setShowMenu }) => {
                 </Link>
               );
             })}
+
+            {address && (
+              <button
+                onClick={() => {
+                  disconnect();
+                  handleClose();
+                }}
+                className={cn(
+                  "animated-border relative text-danger hover:text-danger/80",
+                  "flex items-center gap-2",
+                  "text-xl mobile:text-base font-normal"
+                )}
+              >
+                <LogoutIcon />
+                Disconnect Wallet
+              </button>
+            )}
           </div>
         </div>
       </Container>

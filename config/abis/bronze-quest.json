@@ -31,6 +31,11 @@
         "name": "_subId",
         "type": "uint256",
         "internalType": "uint256"
+      },
+      {
+        "name": "_entryFeeTokens",
+        "type": "uint256",
+        "internalType": "uint256"
       }
     ],
     "stateMutability": "nonpayable"
@@ -710,19 +715,6 @@
   },
   {
     "type": "function",
-    "name": "setEntryFee",
-    "inputs": [
-      {
-        "name": "_entryTokens",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "setFees",
     "inputs": [
       {
@@ -747,19 +739,6 @@
         "name": "_nft",
         "type": "address",
         "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setMinPlayers",
-    "inputs": [
-      {
-        "name": "_min",
-        "type": "uint256",
-        "internalType": "uint256"
       }
     ],
     "outputs": [],

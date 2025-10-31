@@ -4,12 +4,12 @@ export type QuestType = 'bronze' | 'silver' | 'gold' | 'crystal';
 
 export const QUEST_CONFIGS = {
   bronze: {
-    address: '0xAB494bB36e53815b9780196F7354902d392efcae' as `0x${string}`,
+    address: '0x18c30Ca08cd624B9F0062721844f6ef33e10c8cf' as `0x${string}`,
     entryFeeWei: BigInt('1000000'), // 1 USDT (6 decimals)
     name: 'Bronze Quest',
   },
   silver: {
-    address: '0x271Bd46430F7060E13E3f69021df4d37317fa227' as `0x${string}`,
+    address: '0x55906c85CED91FD6cbD031d7922302284d3c6337' as `0x${string}`,
     entryFeeWei: BigInt('2000000'), // 2 USDT (6 decimals)
     name: 'Silver Quest',
   },
