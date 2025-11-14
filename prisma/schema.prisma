@@ -352,4 +352,10 @@ enum Chain {
   LENS
   PHAROS
   CORE
+  SWELL
+  AURORA
+  MITOSIS
+  FLUENT
+  CITREA
+  VICTION
 }
