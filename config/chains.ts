@@ -92,6 +92,12 @@ export enum ChainId {
   ZERO = 'ZERO',
   XDC = 'XDC',
   ZETA = 'ZETA',
+  SWELL = 'SWELL',
+  AURORA = 'AURORA',
+  MITOSIS = 'MITOSIS',
+  FLUENT = 'FLUENT',
+  CITREA = 'CITREA',
+  VICTION = 'VICTION',
 }
 
 export enum NETWORKS {
@@ -188,6 +194,12 @@ export enum NETWORKS {
   RISE = 11155931,
   PHAROS = 688688,
   GIWA = 91342,
+  SWELL = 1923,
+  AURORA = 1313161554,
+  MITOSIS = 124816,
+  FLUENT = 20994,
+  CITREA = 5115,
+  VICTION = 88,
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -287,6 +299,12 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.ZERO]: process.env.NEXT_PUBLIC_RPC_ZERO!,
   [NETWORKS.XDC]: process.env.NEXT_PUBLIC_RPC_XDC!,
   [NETWORKS.ZETA]: process.env.NEXT_PUBLIC_RPC_ZETA!,
+  [NETWORKS.SWELL]: process.env.NEXT_PUBLIC_RPC_SWELL!,
+  [NETWORKS.AURORA]: process.env.NEXT_PUBLIC_RPC_AURORA!,
+  [NETWORKS.MITOSIS]: process.env.NEXT_PUBLIC_RPC_MITOSIS!,
+  [NETWORKS.FLUENT]: process.env.NEXT_PUBLIC_RPC_FLUENT!,
+  [NETWORKS.CITREA]: process.env.NEXT_PUBLIC_RPC_CITREA!,
+  [NETWORKS.VICTION]: process.env.NEXT_PUBLIC_RPC_VICTION!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
@@ -399,6 +417,12 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.ZERO]: '#000000',
   [NETWORKS.XDC]: '#000000',
   [NETWORKS.ZETA]: '#000000',
+  [NETWORKS.SWELL]: '#000000',
+  [NETWORKS.AURORA]: '#000000',
+  [NETWORKS.MITOSIS]: '#000000',
+  [NETWORKS.FLUENT]: '#000000',
+  [NETWORKS.CITREA]: '#000000',
+  [NETWORKS.VICTION]: '#000000',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
   // [NETWORKS.NEOX]: "#00E599",
@@ -2266,6 +2290,110 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
+    {
+    id: NETWORKS.SWELL,
+    name: "Swellcahin",
+    shortName: "Swellcahin",
+    chain: ChainId.SWELL,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/swell.jpg",
+    nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.SWELL]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Swell Chain explorer",
+        url: "https://explorer.swellnetwork.io/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+    {
+    id: NETWORKS.AURORA,
+    name: "AURORA",
+    shortName: "AURORA",
+    chain: ChainId.AURORA,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/aurora.jpg",
+    nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.AURORA]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Aurora explorer",
+        url: "https://explorer.mainnet.aurora.dev/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+    {
+    id: NETWORKS.MITOSIS,
+    name: "MITOSIS",
+    shortName: "MITOSIS",
+    chain: ChainId.MITOSIS,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/mitosis.jpg",
+    nativeCurrency: { name: "MITO", symbol: "MITO", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.MITOSIS]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Mitosis Explorer",
+        url: "https://mitoscan.io/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+      {
+    id: NETWORKS.VICTION,
+    name: "VICTION",
+    shortName: "VICTION",
+    chain: ChainId.VICTION,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/viction.jpg",
+    nativeCurrency: { name: "VIC", symbol: "VIC", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.VICTION]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Viction Explorer",
+        url: "https://www.vicscan.xyz/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
   // {
   //   id: NETWORKS.ARTHERA,
   //   name: "Arthera Mainnet",
@@ -2691,6 +2819,42 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     testnet: true,
     gmOnly: true,
+  },
+  {
+    id: NETWORKS.FLUENT,
+    name: 'FLUENT Testnet',
+    shortName: 'FLUENT',
+    chain: ChainId.FLUENT,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    iconUrl: '/img/chainLogos/fluent.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.FLUENT]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'Fluent testnet explorer', 
+        url: 'https://testnet.fluentscan.xyz/' },
+    },
+    testnet: true,
+  },
+    {
+    id: NETWORKS.CITREA,
+    name: 'CITREA Testnet',
+    shortName: 'CITREA',
+    chain: ChainId.CITREA,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'CBTC', symbol: 'CBTC', decimals: 18 },
+    iconUrl: '/img/chainLogos/citrea.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.CITREA]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'Citrea Testnet explorer', 
+        url: 'https://explorer.testnet.citrea.xyz/' },
+    },
+    testnet: true,
   },
   // {
   //   id: NETWORKS.NEOX,
