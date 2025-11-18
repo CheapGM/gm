@@ -368,4 +368,9 @@ enum Chain {
   FLUENT
   CITREA
   VICTION
+  INJECTIVE
+  JUCHAIN
+  KIICHAIN
+  ARC
+  IRYS
 }

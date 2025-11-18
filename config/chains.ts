@@ -98,6 +98,11 @@ export enum ChainId {
   FLUENT = 'FLUENT',
   CITREA = 'CITREA',
   VICTION = 'VICTION',
+  INJECTIVE = 'INJECTIVE',
+  JUCHAIN = 'JUCHAIN',
+  KIICHAIN = 'KIICHAIN',
+  ARC = 'ARC',
+  IRYS = 'IRYS',
 }
 
 export enum NETWORKS {
@@ -179,6 +184,12 @@ export enum NETWORKS {
   ZERO = 543210,
   XDC = 50,
   ZETA = 7000,
+  SWELL = 1923,
+  AURORA = 1313161554,
+  MITOSIS = 124816,
+  VICTION = 88,
+  INJECTIVE = 1776,
+  JUCHAIN = 210000,
   /* testnets */
   SEPOLIA = 11155111,
   CREATOR_CHAIN = 66665,
@@ -194,12 +205,11 @@ export enum NETWORKS {
   RISE = 11155931,
   PHAROS = 688688,
   GIWA = 91342,
-  SWELL = 1923,
-  AURORA = 1313161554,
-  MITOSIS = 124816,
   FLUENT = 20994,
   CITREA = 5115,
-  VICTION = 88,
+  KIICHAIN = 1336,
+  ARC = 5042002,
+  IRYS = 1270,
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -305,6 +315,11 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.FLUENT]: process.env.NEXT_PUBLIC_RPC_FLUENT!,
   [NETWORKS.CITREA]: process.env.NEXT_PUBLIC_RPC_CITREA!,
   [NETWORKS.VICTION]: process.env.NEXT_PUBLIC_RPC_VICTION!,
+  [NETWORKS.INJECTIVE]: process.env.NEXT_PUBLIC_RPC_INJECTIVE!,
+  [NETWORKS.KIICHAIN]: process.env.NEXT_PUBLIC_RPC_KIICHAIN!,
+  [NETWORKS.JUCHAIN]: process.env.NEXT_PUBLIC_RPC_JUCHAIN!,
+  [NETWORKS.ARC]: process.env.NEXT_PUBLIC_RPC_ARC!,
+  [NETWORKS.IRYS]: process.env.NEXT_PUBLIC_RPC_IRYS!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
@@ -417,12 +432,17 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.ZERO]: '#000000',
   [NETWORKS.XDC]: '#000000',
   [NETWORKS.ZETA]: '#000000',
-  [NETWORKS.SWELL]: '#000000',
-  [NETWORKS.AURORA]: '#000000',
-  [NETWORKS.MITOSIS]: '#000000',
-  [NETWORKS.FLUENT]: '#000000',
-  [NETWORKS.CITREA]: '#000000',
-  [NETWORKS.VICTION]: '#000000',
+  [NETWORKS.SWELL]: '#6180D8',
+  [NETWORKS.AURORA]: '#5AB134',
+  [NETWORKS.MITOSIS]: '#5D5DF6',
+  [NETWORKS.FLUENT]: '#5B1AEB',
+  [NETWORKS.CITREA]: '#464A4F',
+  [NETWORKS.VICTION]: '#9ca089ff',
+  [NETWORKS.INJECTIVE]: '#3b1ec0ff',
+  [NETWORKS.JUCHAIN]: '#102db1ff',
+  [NETWORKS.KIICHAIN]: '#37088fff',
+  [NETWORKS.ARC]: '#143988ff',
+  [NETWORKS.IRYS]: '#0e989cff',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
   // [NETWORKS.NEOX]: "#00E599",
@@ -2290,7 +2310,7 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
-    {
+  {
     id: NETWORKS.SWELL,
     name: "Swellcahin",
     shortName: "Swellcahin",
@@ -2316,7 +2336,7 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
-    {
+  {
     id: NETWORKS.AURORA,
     name: "AURORA",
     shortName: "AURORA",
@@ -2342,7 +2362,7 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
-    {
+  {
     id: NETWORKS.MITOSIS,
     name: "MITOSIS",
     shortName: "MITOSIS",
@@ -2368,7 +2388,7 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
-      {
+  {
     id: NETWORKS.VICTION,
     name: "VICTION",
     shortName: "VICTION",
@@ -2385,6 +2405,57 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: {
         name: "Viction Explorer",
         url: "https://www.vicscan.xyz/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+  {
+    id: NETWORKS.INJECTIVE,
+    name: "INJECTIVE",
+    shortName: "INJECTIVE",
+    chain: ChainId.INJECTIVE,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/injective.jpg",
+    nativeCurrency: { name: "INJ", symbol: "INJ", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.INJECTIVE]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Injective Explorer",
+        url: "https://blockscout.injective.network",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },  {
+    id: NETWORKS.JUCHAIN,
+    name: "JUCHAIN",
+    shortName: "JUCHAIN",
+    chain: ChainId.JUCHAIN,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/juchain.jpg",
+    nativeCurrency: { name: "JU", symbol: "JU", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.JUCHAIN]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Juchain Explorer",
+        url: "https://explorer.juscan.io",
       },
     },
     contracts: {
@@ -2838,7 +2909,7 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     testnet: true,
   },
-    {
+  {
     id: NETWORKS.CITREA,
     name: 'CITREA Testnet',
     shortName: 'CITREA',
@@ -2853,6 +2924,60 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: { 
         name: 'Citrea Testnet explorer', 
         url: 'https://explorer.testnet.citrea.xyz/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.KIICHAIN,
+    name: 'KIICHAIN Testnet',
+    shortName: 'KIICHAIN',
+    chain: ChainId.KIICHAIN,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'KII', symbol: 'KII', decimals: 18 },
+    iconUrl: '/img/chainLogos/kiichain.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.KIICHAIN]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'KiiChain Testnet explorer', 
+        url: 'https://explorer.kiichain.io/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.ARC,
+    name: 'ARC Testnet',
+    shortName: 'ARC',
+    chain: ChainId.ARC,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'USDC', symbol: 'USDC', decimals: 18 },
+    iconUrl: '/img/chainLogos/arc.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.ARC]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'ARC Testnet explorer', 
+        url: 'https://testnet.arcscan.app/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.IRYS,
+    name: 'IRYS Testnet',
+    shortName: 'IRYS',
+    chain: ChainId.IRYS,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'IRYS', symbol: 'IRYS', decimals: 18 },
+    iconUrl: '/img/chainLogos/irys.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.IRYS]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'Irys Testnet explorer', 
+        url: 'https://testnet.arcscan.app/' },
     },
     testnet: true,
   },
