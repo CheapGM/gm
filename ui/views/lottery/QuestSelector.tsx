@@ -23,7 +23,7 @@ const quests = [
     name: 'Silver Quest',
     iconBg: '#D2D2D2',
     icon: '',
-    disabled: false,
+    disabled: true,
   },
   {
     id: 'gold' as QuestType,

@@ -483,7 +483,7 @@ export default function LotteryPage() {
         disabled?: boolean;
     }> = [
         { type: "bronze", info: getQuestInfo("bronze"), disabled: false },
-        { type: "silver", info: getQuestInfo("silver"), disabled: false },
+        { type: "silver", info: getQuestInfo("silver"), disabled: true },
         { type: "gold", info: getQuestInfo("gold"), disabled: true },
         { type: "crystal", info: getQuestInfo("crystal"), disabled: true },
     ];
@@ -1236,12 +1236,15 @@ export default function LotteryPage() {
                                 isSelected={selectedQuest === "bronze"}
                                 onClick={() => setSelectedQuest("bronze")}
                             />
-                            <QuestStatusCardMobile
-                                questType="silver"
-                                chainId={8453}
-                                isSelected={selectedQuest === "silver"}
-                                onClick={() => setSelectedQuest("silver")}
-                            />
+                            <div className="relative">
+                                <QuestStatusCardMobile
+                                    questType="silver"
+                                    chainId={8453}
+                                    isSelected={selectedQuest === "silver"}
+                                    onClick={() => {}}
+                                />
+                                <div className="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] rounded-2xl cursor-not-allowed" />
+                            </div>
                             <div className="relative">
                                 <QuestStatusCardMobile
                                     questType="gold"
@@ -1269,12 +1272,15 @@ export default function LotteryPage() {
                                 isSelected={selectedQuest === "bronze"}
                                 onClick={() => setSelectedQuest("bronze")}
                             />
-                            <QuestStatusCard
-                                questType="silver"
-                                chainId={8453}
-                                isSelected={selectedQuest === "silver"}
-                                onClick={() => setSelectedQuest("silver")}
-                            />
+                            <div className="relative">
+                                <QuestStatusCard
+                                    questType="silver"
+                                    chainId={8453}
+                                    isSelected={selectedQuest === "silver"}
+                                    onClick={() => {}}
+                                />
+                                <div className="absolute inset-0 bg-gray-100/50 backdrop-blur-[1px] rounded-2xl cursor-not-allowed" />
+                            </div>
                             <div className="relative">
                                 <QuestStatusCard
                                     questType="gold"
