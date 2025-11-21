@@ -103,6 +103,11 @@ export enum ChainId {
   KIICHAIN = 'KIICHAIN',
   ARC = 'ARC',
   IRYS = 'IRYS',
+  IMMUTABLEX = 'IMMUTABLEX',
+  RAYLS = 'RAYLS',
+  OPN = 'OPN',
+  PUSHCHAIN = 'PUSHCHAIN',
+  NEURA = 'NEURA',
 }
 
 export enum NETWORKS {
@@ -190,6 +195,7 @@ export enum NETWORKS {
   VICTION = 88,
   INJECTIVE = 1776,
   JUCHAIN = 210000,
+  IMMUTABLEX = '13371',
   /* testnets */
   SEPOLIA = 11155111,
   CREATOR_CHAIN = 66665,
@@ -210,6 +216,10 @@ export enum NETWORKS {
   KIICHAIN = 1336,
   ARC = 5042002,
   IRYS = 1270,
+  RAYLS = '123123',
+  OPN = '984',
+  PUSHCHAIN = '42101',
+  NEURA = '267',
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -320,6 +330,10 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.JUCHAIN]: process.env.NEXT_PUBLIC_RPC_JUCHAIN!,
   [NETWORKS.ARC]: process.env.NEXT_PUBLIC_RPC_ARC!,
   [NETWORKS.IRYS]: process.env.NEXT_PUBLIC_RPC_IRYS!,
+  [NETWORKS.IMMUTABLEX]: process.env.NEXT_PUBLIC_RPC_IMMUTABLEX!,
+  [NETWORKS.OPN]: process.env.NEXT_PUBLIC_RPC_OPN!,
+  [NETWORKS.PUSHCHAIN]: process.env.NEXT_PUBLIC_RPC_PUSHCHAIN!,
+  [NETWORKS.NEURA]: process.env.NEXT_PUBLIC_RPC_NEURA!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
@@ -443,6 +457,11 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.KIICHAIN]: '#37088fff',
   [NETWORKS.ARC]: '#143988ff',
   [NETWORKS.IRYS]: '#0e989cff',
+  [NETWORKS.IMMUTABLEX]: '#272727ff',
+  [NETWORKS.RAYLS]: '#fffeb2fb',
+  [NETWORKS.OPN]: '#5376e9ff',
+  [NETWORKS.PUSHCHAIN]: '#ce44d3ff',
+  [NETWORKS.NEURA]: '#45e267ff',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
   // [NETWORKS.NEOX]: "#00E599",
@@ -2439,7 +2458,8 @@ export const CHAINS: NETWORK_TYPE[] = [
       },
     },
     gmOnly: true,
-  },  {
+  },  
+  {
     id: NETWORKS.JUCHAIN,
     name: "JUCHAIN",
     shortName: "JUCHAIN",
@@ -2456,6 +2476,32 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: {
         name: "Juchain Explorer",
         url: "https://explorer.juscan.io",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+  {
+    id: NETWORKS.IMMUTABLEX,
+    name: "IMMUTABLEX",
+    shortName: "IMMUTABLEX",
+    chain: ChainId.IMMUTABLEX,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/immutablex.jpg",
+    nativeCurrency: { name: "IMX", symbol: "IMX", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.IMMUTABLEX]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "IMMUTABLE Explorer",
+        url: "https://explorer.immutable.com/",
       },
     },
     contracts: {
@@ -2964,6 +3010,78 @@ export const CHAINS: NETWORK_TYPE[] = [
     testnet: true,
   },
   {
+    id: NETWORKS.RAYLS,
+    name: 'RAYLS Testnet',
+    shortName: 'RAYLS',
+    chain: ChainId.RAYLS,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'USDgas', symbol: 'USDgas', decimals: 18 },
+    iconUrl: '/img/chainLogos/rayls.png',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.RAYLS]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'RAYLS Testnet explorer', 
+        url: 'https://rayls-test-chain.explorer.caldera.xyz/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.OPN,
+    name: 'OPN Testnet',
+    shortName: 'OPN',
+    chain: ChainId.OPN,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'OPN', symbol: 'OPN', decimals: 18 },
+    iconUrl: '/img/chainLogos/opn.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.OPN]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'OPN Testnet explorer', 
+        url: 'https://testnet.iopn.tech/' },
+    },
+    testnet: true,
+  }
+  {
+    id: NETWORKS.PUSHCHAIN,
+    name: 'PUSHCHAIN Testnet',
+    shortName: 'PUSHCHAIN',
+    chain: ChainId.PUSHCHAIN,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'PC', symbol: 'PC', decimals: 18 },
+    iconUrl: '/img/chainLogos/pushchain.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.PUSHCHAIN]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'PUSHCHAIN Testnet explorer', 
+        url: 'https://donut.push.network/' },
+    },
+    testnet: true,
+  }
+  {
+    id: NETWORKS.NEURA,
+    name: 'NEURA Testnet',
+    shortName: 'NEURA',
+    chain: ChainId.NEURA,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'ANKR', symbol: 'ANKR', decimals: 18 },
+    iconUrl: '/img/chainLogos/neura.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.NEURA]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'NEURA Testnet explorer', 
+        url: 'https://testnet-blockscout.infra.neuraprotocol.io' },
+    },
+    testnet: true,
+  }
+  {
     id: NETWORKS.IRYS,
     name: 'IRYS Testnet',
     shortName: 'IRYS',
@@ -2980,7 +3098,7 @@ export const CHAINS: NETWORK_TYPE[] = [
         url: 'https://testnet.arcscan.app/' },
     },
     testnet: true,
-  },
+  }
   // {
   //   id: NETWORKS.NEOX,
   //   name: "NEOX",
