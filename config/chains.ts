@@ -195,7 +195,11 @@ export enum NETWORKS {
   VICTION = 88,
   INJECTIVE = 1776,
   JUCHAIN = 210000,
-  IMMUTABLEX = '13371',
+  IMMUTABLEX = 13371,
+  RAYLS = 123123,
+  OPN = 984,
+  PUSHCHAIN = 42101,
+  NEURA = 267,
   /* testnets */
   SEPOLIA = 11155111,
   CREATOR_CHAIN = 66665,
@@ -216,10 +220,6 @@ export enum NETWORKS {
   KIICHAIN = 1336,
   ARC = 5042002,
   IRYS = 1270,
-  RAYLS = '123123',
-  OPN = '984',
-  PUSHCHAIN = '42101',
-  NEURA = '267',
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -3045,7 +3045,7 @@ export const CHAINS: NETWORK_TYPE[] = [
         url: 'https://testnet.iopn.tech/' },
     },
     testnet: true,
-  }
+  },
   {
     id: NETWORKS.PUSHCHAIN,
     name: 'PUSHCHAIN Testnet',
@@ -3063,7 +3063,7 @@ export const CHAINS: NETWORK_TYPE[] = [
         url: 'https://donut.push.network/' },
     },
     testnet: true,
-  }
+  },
   {
     id: NETWORKS.NEURA,
     name: 'NEURA Testnet',
@@ -3081,7 +3081,7 @@ export const CHAINS: NETWORK_TYPE[] = [
         url: 'https://testnet-blockscout.infra.neuraprotocol.io' },
     },
     testnet: true,
-  }
+  },
   {
     id: NETWORKS.IRYS,
     name: 'IRYS Testnet',
@@ -3099,7 +3099,7 @@ export const CHAINS: NETWORK_TYPE[] = [
         url: 'https://testnet.arcscan.app/' },
     },
     testnet: true,
-  }
+  },
   // {
   //   id: NETWORKS.NEOX,
   //   name: "NEOX",
