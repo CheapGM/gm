@@ -334,6 +334,7 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.OPN]: process.env.NEXT_PUBLIC_RPC_OPN!,
   [NETWORKS.PUSHCHAIN]: process.env.NEXT_PUBLIC_RPC_PUSHCHAIN!,
   [NETWORKS.NEURA]: process.env.NEXT_PUBLIC_RPC_NEURA!,
+  [NETWORKS.RAYLS]: process.env.NEXT_PUBLIC_RPC_RAYLS!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
