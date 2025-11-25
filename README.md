@@ -25,5 +25,5 @@ It’s simple, social, and powered by smart contracts with built-in referral pay
 * **Smart Contracts:** Solidity (EVM-compatible)
 * **Backend (optional):** Node.js + PostgreSQL / Firebase for off-chain leaderboard
 * **Database:** Optional for faster leaderboard queries
-
+* **Blockchain:** BNB Smart Chain + EVM-compatible chains
 ***
