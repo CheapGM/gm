@@ -200,10 +200,10 @@ export enum NETWORKS {
   OPN = 984,
   PUSHCHAIN = 42101,
   NEURA = 267,
+  MONAD = 143,
   /* testnets */
   SEPOLIA = 11155111,
   CREATOR_CHAIN = 66665,
-  MONAD = 10143,
   NEXUS = 393,
   // SOMNIA = 50312,
   KITE = 2368,
@@ -461,7 +461,7 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.IMMUTABLEX]: '#272727ff',
   [NETWORKS.RAYLS]: '#fffeb2fb',
   [NETWORKS.OPN]: '#5376e9ff',
-  [NETWORKS.PUSHCHAIN]: '#ce44d3ff',
+  [NETWORKS.PUSHCHAIN]: '#d548ec',
   [NETWORKS.NEURA]: '#45e267ff',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
@@ -496,7 +496,6 @@ export const CHAINS: NETWORK_TYPE[] = [
         address: '0xcA11bde05977b3631167028862bE2a173976CA11',
       },
     },
-    hidden: true,
   },
   {
     id: NETWORKS.SEPOLIA,
@@ -2603,7 +2602,7 @@ export const CHAINS: NETWORK_TYPE[] = [
   },
   {
     id: NETWORKS.MONAD,
-    name: 'Monad Testnet',
+    name: 'Monad ',
     shortName: 'Monad',
     chain: ChainId.MONAD,
     sellMarket: 'https://element.market',
@@ -2613,14 +2612,13 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: { http: [rpcs[NETWORKS.MONAD]] },
     },
     blockExplorers: {
-      default: { name: 'MON', url: 'http://testnet.monadexplorer.com/' },
+      default: { name: 'MON', url: 'https://monadvision.com/' },
     },
     contracts: {
       multicall3: {
         address: '0xcA11bde05977b3631167028862bE2a173976CA11',
       },
     },
-    testnet: true,
   },
   {
     id: NETWORKS.NEXUS,
@@ -3048,18 +3046,18 @@ export const CHAINS: NETWORK_TYPE[] = [
   },
   {
     id: NETWORKS.PUSHCHAIN,
-    name: 'PUSHCHAIN Testnet',
-    shortName: 'PUSHCHAIN',
+    name: 'Push Chain Donut Testnet',
+    shortName: 'Push Donut Testnet',
     chain: ChainId.PUSHCHAIN,
     sellMarket: 'https://element.market',
     nativeCurrency: { name: 'PC', symbol: 'PC', decimals: 18 },
-    iconUrl: '/img/chainLogos/pushchain.jpg',
+    iconUrl: '/img/chainLogos/pushchain.png',
     rpcUrls: {
       default: { http: [rpcs[NETWORKS.PUSHCHAIN]] },
     },
     blockExplorers: {
       default: { 
-        name: 'PUSHCHAIN Testnet explorer', 
+        name: 'Push Chain Donut Testnet explorer', 
         url: 'https://donut.push.network/' },
     },
     testnet: true,
