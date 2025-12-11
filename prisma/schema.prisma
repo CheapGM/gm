@@ -376,4 +376,7 @@ enum Chain {
   OPN
   PUSHCHAIN
   NEURA
+  OPBNB
+  SHARDEUM
+  STABLE
 }
