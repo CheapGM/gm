@@ -108,6 +108,9 @@ export enum ChainId {
   OPN = 'OPN',
   PUSHCHAIN = 'PUSHCHAIN',
   NEURA = 'NEURA',
+  OPBNB = 'OPBNB',
+  SHARDEUM = 'SHARDEUM',
+  STABLE = 'STABLE',
 }
 
 export enum NETWORKS {
@@ -220,6 +223,9 @@ export enum NETWORKS {
   KIICHAIN = 1336,
   ARC = 5042002,
   IRYS = 1270,
+  OPBNB = 204,
+  SHARDEUM = 8118,
+  STABLE = 988,
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -335,6 +341,9 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.PUSHCHAIN]: process.env.NEXT_PUBLIC_RPC_PUSHCHAIN!,
   [NETWORKS.NEURA]: process.env.NEXT_PUBLIC_RPC_NEURA!,
   [NETWORKS.RAYLS]: process.env.NEXT_PUBLIC_RPC_RAYLS!,
+  [NETWORKS.OPBNB]: process.env.NEXT_PUBLIC_RPC_OPBNB!,
+  [NETWORKS.SHARDEUM]: process.env.NEXT_PUBLIC_RPC_SHARDEUM!,
+  [NETWORKS.STABLE]: process.env.NEXT_PUBLIC_RPC_STABLE!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
@@ -463,6 +472,9 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.OPN]: '#5376e9ff',
   [NETWORKS.PUSHCHAIN]: '#d548ec',
   [NETWORKS.NEURA]: '#45e267ff',
+  [NETWORKS.OPBNB]: '#f0b90b',
+  [NETWORKS.SHARDEUM]: '#3268ddff',
+  [NETWORKS.STABLE]: '#2b8a47ff',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
   // [NETWORKS.NEOX]: "#00E599",
@@ -2502,6 +2514,84 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: {
         name: "IMMUTABLE Explorer",
         url: "https://explorer.immutable.com/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+  {
+    id: NETWORKS.OPBNB,
+    name: "opBNB Network",
+    shortName: "opBNB Network",
+    chain: ChainId.OPBNB,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/opbnb.jpg",
+    nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.OPBNB]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "opBNB Explorer",
+        url: "https://opbnbscan.com/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+  {
+    id: NETWORKS.SHARDEUM,
+    name: "Shardeum",
+    shortName: "Shardeum",
+    chain: ChainId.SHARDEUM,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/shardeum.jpg",
+    nativeCurrency: { name: "SHM", symbol: "SHM", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.SHARDEUM]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "SHARDEUM Explorer",
+        url: "https://explorer.shardeum.org/",
+      },
+    },
+    contracts: {
+      multicall3: {
+        address: "0xcA11bde05977b3631167028862bE2a173976CA11",
+      },
+    },
+    gmOnly: true,
+  },
+  {
+    id: NETWORKS.STABLE,
+    name: "Stable",
+    shortName: "Stable",
+    chain: ChainId.STABLE,
+    sellMarket: "https://element.market",
+    iconUrl: "/img/chainLogos/stable.jpg",
+    nativeCurrency: { name: "gUSDT", symbol: "gUSDT", decimals: 18 },
+    rpcUrls: {
+      default: {
+        http: [rpcs[NETWORKS.STABLE]],
+      },
+    },
+    blockExplorers: {
+      default: {
+        name: "Stable Chain Explorer",
+        url: "https://stablescan.xyz/",
       },
     },
     contracts: {
