@@ -110,7 +110,9 @@ export enum ChainId {
   NEURA = 'NEURA',
   OPBNB = 'OPBNB',
   SHARDEUM = 'SHARDEUM',
-  STABLE = 'STABLE',
+  INCENTIV = 'INCENTIV',
+  X1ECOCHAIN = 'X1ECOCHAIN',
+  TEMPO = 'TEMPO',
 }
 
 export enum NETWORKS {
@@ -226,6 +228,9 @@ export enum NETWORKS {
   OPBNB = 204,
   SHARDEUM = 8118,
   STABLE = 988,
+  INCENTIV =288002,
+  X1ECOCHAIN = 10778,
+  TEMPO = 42429,
 }
 
 export const rpcs: { [key in NETWORKS]: string } = {
@@ -344,6 +349,9 @@ export const rpcs: { [key in NETWORKS]: string } = {
   [NETWORKS.OPBNB]: process.env.NEXT_PUBLIC_RPC_OPBNB!,
   [NETWORKS.SHARDEUM]: process.env.NEXT_PUBLIC_RPC_SHARDEUM!,
   [NETWORKS.STABLE]: process.env.NEXT_PUBLIC_RPC_STABLE!,
+  [NETWORKS.INCENTIV]: process.env.NEXT_PUBLIC_RPC_INCENTIV!,
+  [NETWORKS.X1ECOCHAIN]: process.env.NEXT_PUBLIC_RPC_X1ECOCHAIN!,
+  [NETWORKS.TEMPO]: process.env.NEXT_PUBLIC_RPC_TEMPO!,
   // [NETWORKS.ZKLINK]: process.env.NEXT_PUBLIC_RPC_ZKLINK!,
   // [NETWORKS.ARTHERA]: process.env.NEXT_PUBLIC_RPC_ARTHERA!,
   // [NETWORKS.NEOX]: process.env.NEXT_PUBLIC_RPC_NEOX!,
@@ -475,6 +483,9 @@ export const CHAIN_COLOR: { [key in NETWORKS]: string } = {
   [NETWORKS.OPBNB]: '#f0b90b',
   [NETWORKS.SHARDEUM]: '#3268ddff',
   [NETWORKS.STABLE]: '#2b8a47ff',
+  [NETWORKS.INCENTIV]: '#f7f7f7ff',
+  [NETWORKS.X1ECOCHAIN]: '#31914eff',
+  [NETWORKS.TEMPO]: '#1a1a1aff',
   // [NETWORKS.ZKLINK]: "#04D693",
   // [NETWORKS.ARTHERA]: "#B10C90",
   // [NETWORKS.NEOX]: "#00E599",
@@ -3185,6 +3196,60 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: { 
         name: 'Irys Testnet explorer', 
         url: 'https://testnet.arcscan.app/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.INCENTIV,
+    name: 'INCENTIV Testnet',
+    shortName: 'INCENTIV',
+    chain: ChainId.INCENTIV,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'TCENT', symbol: 'TCENT', decimals: 18 },
+    iconUrl: '/img/chainLogos/incentiv.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.INCENTIV]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'INCENTIV Testnet explorer', 
+        url: 'https://explorer-testnet.incentiv.io/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.X1ECOCHAIN,
+    name: 'X1EcoChain Testnet',
+    shortName: 'X1EcoChain',
+    chain: ChainId.X1ECOCHAIN,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'X1T', symbol: 'X1T', decimals: 18 },
+    iconUrl: '/img/chainLogos/x1ecochain.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.X1ECOCHAIN]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'X1 EcoChain Testnet', 
+        url: 'https://maculatus-scan.x1eco.com/' },
+    },
+    testnet: true,
+  },
+  {
+    id: NETWORKS.TEMPO,
+    name: 'TEMPO Testnet',
+    shortName: 'TEMPO',
+    chain: ChainId.TEMPO,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'AlphaUSD', symbol: 'AlphaUSD', decimals: 18 },
+    iconUrl: '/img/chainLogos/tempo.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.IRYS]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'TEMPO Testnet explorer', 
+        url: 'https://explore.tempo.xyz/' },
     },
     testnet: true,
   },

@@ -379,4 +379,7 @@ enum Chain {
   OPBNB
   SHARDEUM
   STABLE
+  INCENTIV
+  X1ECOCHAIN
+  TEMPO
 }
