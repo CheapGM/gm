@@ -222,7 +222,7 @@ export enum NETWORKS {
   PHAROS = 688688,
   GIWA = 91342,
   FLUENT = 20994,
-  CITREA = 5115,
+  CITREA = 4114,
   KIICHAIN = 1336,
   ARC = 5042002,
   IRYS = 1270,
@@ -2613,6 +2613,24 @@ export const CHAINS: NETWORK_TYPE[] = [
     },
     gmOnly: true,
   },
+  {
+    id: NETWORKS.CITREA,
+    name: 'CITREA',
+    shortName: 'CITREA',
+    chain: ChainId.CITREA,
+    sellMarket: 'https://element.market',
+    nativeCurrency: { name: 'cBTC', symbol: 'cBTC', decimals: 18 },
+    iconUrl: '/img/chainLogos/citrea.jpg',
+    rpcUrls: {
+      default: { http: [rpcs[NETWORKS.CITREA]] },
+    },
+    blockExplorers: {
+      default: { 
+        name: 'Citrea explorer', 
+        url: 'https://explorer.mainnet.citrea.xyz/' },
+    },
+    gmOnly: true,
+  },
   // {
   //   id: NETWORKS.ARTHERA,
   //   name: "Arthera Mainnet",
@@ -3053,24 +3071,6 @@ export const CHAINS: NETWORK_TYPE[] = [
       default: { 
         name: 'Fluent testnet explorer', 
         url: 'https://testnet.fluentscan.xyz/' },
-    },
-    testnet: true,
-  },
-  {
-    id: NETWORKS.CITREA,
-    name: 'CITREA Testnet',
-    shortName: 'CITREA',
-    chain: ChainId.CITREA,
-    sellMarket: 'https://element.market',
-    nativeCurrency: { name: 'CBTC', symbol: 'CBTC', decimals: 18 },
-    iconUrl: '/img/chainLogos/citrea.jpg',
-    rpcUrls: {
-      default: { http: [rpcs[NETWORKS.CITREA]] },
-    },
-    blockExplorers: {
-      default: { 
-        name: 'Citrea Testnet explorer', 
-        url: 'https://explorer.testnet.citrea.xyz/' },
     },
     testnet: true,
   },
